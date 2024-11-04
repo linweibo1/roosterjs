@@ -58,7 +58,8 @@ export function setModelIndentation(
                 const originalValue = parseValueWithUnit(isRtl ? marginRight : marginLeft);
 
                 if (!isIndent && originalValue == 0) {
-                    block.levels.pop();
+                    // todo: xmail: 在某个项目编号中一直减少缩进，要保持不退出项目编号
+                    // block.levels.pop();
                 } else if (newValue !== null) {
                     if (isRtl) {
                         level.format.marginRight = newValue + 'px';
@@ -95,7 +96,9 @@ export function setModelIndentation(
 
                     block.levels.push(newLevel);
                 } else {
-                    block.levels.pop();
+                    // todo: xmail: 在某个项目编号中一直减少缩进，要保持不退出项目编号
+                    block.levels.length > 1 && block.levels.pop();
+                    // block.levels.pop();
                 }
 
                 if (block.levels.length > 0 && context) {

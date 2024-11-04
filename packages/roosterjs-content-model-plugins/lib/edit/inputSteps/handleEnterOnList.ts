@@ -114,6 +114,9 @@ const createNewListItem = (
         listItem.formatHolder.format
     );
 
+    // todo: xmail: 新增的项目编号应该保持跟上一项一样的格式（比如居中）
+    newListItem.format = { ...currentPara.format };
+
     newListItem.blocks.push(newParagraph);
 
     const remainingBlockCount = listItem.blocks.length - paraIndex - 1;

@@ -10,6 +10,9 @@ import {
     updateTableMetadata,
 } from 'roosterjs-content-model-dom';
 import type {
+    // todo: xmail: 保留表情图片基本样式
+    ContentModelImageFormat,
+
     ContentModelSegmentFormat,
     ContentModelTable,
     ReadonlyContentModelBlock,
@@ -69,16 +72,21 @@ export function clearModelFormat(
     );
 
     const marker = segmentsToClear[0];
+    // todo: xmail: 编辑器内容为空时设置居中再清除格式，应该能清除掉居中
+    // 这里简单加两个boolean以控制下面的if，避免改动太多代码
+    const a = false;
+    const b = true;
 
     // 2. If selection is collapsed, add selection to whole word to clear if any
     if (
+        a &&
         blocksToClear.length == 1 &&
         isOnlySelectionMarkerSelected(blocksToClear[0][1]) &&
         blocksToClear.length == 1
     ) {
         segmentsToClear.splice(0, segmentsToClear.length, ...adjustWordSelection(model, marker));
         pendingStructureChange = clearListFormat(blocksToClear[0][0]) || pendingStructureChange;
-    } else if (blocksToClear.length > 1 || blocksToClear.some(x => isWholeBlockSelected(x[1]))) {
+    } else if (b || blocksToClear.length > 1 || blocksToClear.some(x => isWholeBlockSelected(x[1]))) {
         // 2. If a full block or multiple blocks are selected, clear block format
         for (let i = blocksToClear.length - 1; i >= 0; i--) {
             const [path, block] = blocksToClear[i];
@@ -118,7 +126,18 @@ function clearSegmentsFormat(
     defaultSegmentFormat: Readonly<ContentModelSegmentFormat> | undefined
 ) {
     segmentsToClear.forEach(x => {
-        x.format = { ...(defaultSegmentFormat || {}) };
+        // todo: xmail: 保留表情图片基本样式
+        const emojiFormat: ContentModelImageFormat = {};
+        if (x.segmentType === 'Image' && x.dataset.emoji === 'true') {
+            emojiFormat.height = x.format.height;
+            emojiFormat.width = x.format.width;
+            emojiFormat.display = x.format.display;
+            emojiFormat.verticalAlign = x.format.verticalAlign;
+            emojiFormat.paddingBottom = x.format.paddingBottom;
+        }
+        x.format = { ...(defaultSegmentFormat || {}), ...emojiFormat };
+
+        // x.format = { ...(defaultSegmentFormat || {}) };
 
         if (x.link) {
             delete x.link.format.textColor;

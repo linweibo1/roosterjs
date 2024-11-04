@@ -251,7 +251,9 @@ class CopyPastePlugin implements PluginWithState<CopyPastePluginState> {
 
         div.style.display = '';
         div.id = TEMP_DIV_ID;
-        div.focus();
+
+        // todo: xmail: 正文很长时，在尾部ctrl+a，再ctrl+c时编辑器会滚到顶部 https://tapd.woa.com/tapd_fe/20377162/bug/detail/1020377162132609331
+        // div.focus();
 
         return div;
     }

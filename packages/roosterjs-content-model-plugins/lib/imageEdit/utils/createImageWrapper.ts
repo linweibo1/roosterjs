@@ -45,7 +45,8 @@ export function createImageWrapper(
     }
     let resizers: HTMLDivElement[] = [];
     if (operation.indexOf('resize') > -1) {
-        resizers = createImageResizer(doc);
+        // todo: xmail: 调整操作句柄样式
+        resizers = createImageResizer(doc, options);
     }
 
     let croppers: HTMLDivElement[] = [];
@@ -63,7 +64,9 @@ export function createImageWrapper(
         croppers
     );
     const imageSpan = wrap(doc, image, 'span');
+    // todo：xmail：增加一个属性，避免span被编辑器过滤掉导致操作手柄不可见，也方便外部右键菜单判断
     const shadowSpan = createShadowSpan(wrapper, imageSpan);
+    shadowSpan.dataset.imgEditShadow = 'true';
     return { wrapper, shadowSpan, imageClone, resizers, rotators, croppers };
 }
 
@@ -71,8 +74,14 @@ const createShadowSpan = (wrapper: HTMLElement, imageSpan: HTMLSpanElement) => {
     const shadowRoot = imageSpan.attachShadow({
         mode: 'open',
     });
+
+    // todo: xmail: 有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动
+    const image = imageSpan.getElementsByTagName('img')[0];
+    imageSpan.style.lineHeight = '1'; // 行高要重置，否则也会有点跳动
+    imageSpan.style.verticalAlign = window.getComputedStyle(image).verticalAlign;
     imageSpan.id = IMAGE_EDIT_SHADOW_ROOT;
-    wrapper.style.verticalAlign = 'bottom';
+    // imageSpan.style.verticalAlign = 'bottom';
+
     shadowRoot.appendChild(wrapper);
     return imageSpan;
 };
@@ -130,9 +139,15 @@ const createWrapper = (
 const createBorder = (editor: IEditor, borderColor?: string) => {
     const doc = editor.getDocument();
     const resizeBorder = doc.createElement('div');
+    // todo: xmail: 修改选中图片时的外框样式
+    const boxShadow = [
+        '0 0 0 1px #FFFFFF',        // 第一层边框
+        `0 0 0 2px ${borderColor}`, // 第二层边框
+        '0 0 0 3px #FFFFFF',        // 第三层边框
+    ].join(',');
     resizeBorder.setAttribute(
         `style`,
-        `position:absolute;left:0;right:0;top:0;bottom:0;border:solid 2px ${borderColor};pointer-events:none;`
+        `position:absolute;left:-1px;right:-1px;top:-1px;bottom:-1px;box-shadow:${boxShadow};pointer-events:none;`
     );
     return resizeBorder;
 };

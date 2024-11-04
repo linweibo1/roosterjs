@@ -13,7 +13,8 @@ import {
 import type { DragAndDropHandler } from '../../../pluginUtils/DragAndDrop/DragAndDropHandler';
 import type { IEditor, ReadonlyContentModelTable } from 'roosterjs-content-model-types';
 
-const CELL_RESIZER_WIDTH = 4;
+// todo: xmail: 调整表格操作手柄样式，4改为2
+const CELL_RESIZER_WIDTH = 2;
 /**
  * @internal
  */
@@ -266,6 +267,13 @@ function setHorizontalPosition(context: CellResizerContext, trigger: HTMLElement
         trigger.style.left = rect.left + 'px';
         trigger.style.width = rect.right - rect.left + 'px';
         trigger.style.height = CELL_RESIZER_WIDTH + 'px';
+
+        // todo: xmail: 调整表格操作手柄样式
+        const tableRect = normalizeRect(context.table.getBoundingClientRect());
+        if (tableRect) {
+            trigger.style.left = tableRect.left + 'px';
+            trigger.style.width = tableRect.right - tableRect.left + 'px';
+        }
     }
 }
 
@@ -278,5 +286,12 @@ function setVerticalPosition(context: CellResizerContext, trigger: HTMLElement) 
         trigger.style.left = (isRTL ? rect.left : rect.right) - CELL_RESIZER_WIDTH + 1 + 'px';
         trigger.style.width = CELL_RESIZER_WIDTH + 'px';
         trigger.style.height = rect.bottom - rect.top + 'px';
+
+        // todo: xmail: 调整表格操作手柄样式
+        const tableRect = normalizeRect(context.table.getBoundingClientRect());
+        if (tableRect) {
+            trigger.style.top = tableRect.top + 'px';
+            trigger.style.height = tableRect.bottom - tableRect.top + 'px';
+        }
     }
 }

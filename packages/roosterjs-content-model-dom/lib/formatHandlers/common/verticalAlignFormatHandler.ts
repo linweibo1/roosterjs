@@ -12,11 +12,18 @@ export const verticalAlignFormatHandler: FormatHandler<VerticalAlignFormat> = {
             case 'baseline':
             case 'initial':
             case 'super':
-            case 'sub':
+            // todo: xmail: 保留表情图片基本样式
+            // case 'sub':
             case 'text-top':
             case 'text-bottom':
             case 'top':
                 format.verticalAlign = 'top';
+                break;
+
+            // todo: xmail: 保留表情图片基本样式
+            case 'sub':
+                // @ts-ignore
+                format.verticalAlign = 'sub';
                 break;
 
             case 'bottom':

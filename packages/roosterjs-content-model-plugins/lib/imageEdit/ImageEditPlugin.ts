@@ -18,7 +18,10 @@ import {
     ChangeSource,
     getSafeIdSelector,
     getSelectedParagraphs,
-    isElementOfType,
+
+    // todo: xmail: 保留表情图片基本样式
+    isElementOfType as isElementOfTypeRaw,
+
     isNodeOfType,
     mutateBlock,
     mutateSegment,
@@ -58,6 +61,17 @@ const DRAG_ID = '_dragging';
 const IMAGE_EDIT_CLASS = 'imageEdit';
 const IMAGE_EDIT_CLASS_CARET = 'imageEditCaretColor';
 const IMAGE_EDIT_FORMAT_EVENT = 'ImageEditEvent';
+
+// todo: xmail: 保留表情图片基本样式
+function isElementOfType<Tag extends keyof HTMLElementTagNameMap>(
+    element: HTMLElement,
+    tag: Tag
+): element is HTMLElementTagNameMap[Tag] {
+    if (!isElementOfTypeRaw(element, tag)) {
+        return false;
+    }
+    return tag !== 'img' || element.dataset.emoji !== 'true';
+}
 
 /**
  * ImageEdit plugin handles the following image editing features:
@@ -178,6 +192,13 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
             case 'extractContentWithDom':
                 this.removeImageEditing(event.clonedRoot);
                 break;
+            // todo: xmail: 右键菜单时退出图片编辑，方便右键菜单逻辑的实现
+            case 'contextMenu':
+                this.applyFormatWithContentModel(
+                    this.editor,
+                    this.isCropMode,
+                    true /* shouldSelectImage */
+                );
         }
     }
 
