@@ -75,9 +75,9 @@ const createShadowSpan = (wrapper: HTMLElement, imageSpan: HTMLSpanElement) => {
         mode: 'open',
     });
 
-    // todo: xmail: 有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动
+    // todo: xmail: 有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动，也要避免上下图片之间留缝隙
     const image = imageSpan.getElementsByTagName('img')[0];
-    imageSpan.style.lineHeight = '1'; // 行高要重置，否则也会有点跳动
+    imageSpan.style.display = 'inline-flex';
     imageSpan.style.verticalAlign = window.getComputedStyle(image).verticalAlign;
     imageSpan.id = IMAGE_EDIT_SHADOW_ROOT;
     // imageSpan.style.verticalAlign = 'bottom';

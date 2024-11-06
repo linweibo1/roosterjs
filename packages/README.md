@@ -23,7 +23,7 @@
    [3](roosterjs-content-model-dom/lib/formatHandlers/common/verticalAlignFormatHandler.ts)
 
 2、a、右键菜单时退出图片编辑，方便右键菜单逻辑的实现
-   b、有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动
+   b、有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动，也要避免上下图片之间留缝隙
    c、调整操作句柄样式、支持隐藏侧边句柄
    d、给shadowSpan增加一个属性避免被编辑器过滤掉导致操作手柄不可见
    e、带有data-uneditable="true"标记的图片不可编辑（如表情图片、地图图片等）
