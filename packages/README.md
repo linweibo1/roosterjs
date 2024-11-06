@@ -51,3 +51,6 @@
 
 9、在某个项目编号中一直减少缩进，要保持不退出项目编号
    [1](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
+
+10、解决表格选区底色跟内容叠加的问题，只保留一个底色
+   [1](roosterjs-content-model-core/lib/coreApi/setDOMSelection/setDOMSelection.ts)

@@ -113,12 +113,13 @@ export const setDOMSelection: SetDOMSelection = (core, selection, skipSelectionC
                 const tableSelector = getSafeIdSelector(tableId);
 
                 const tableSelectors =
-                    firstCell.row == 0 &&
+                    // todo: xmail：解决表格选区底色跟内容叠加的问题，只保留一个底色
+                    /* firstCell.row == 0 &&
                     firstCell.col == 0 &&
                     lastCell.row == parsedTable.length - 1 &&
                     lastCell.col == (parsedTable[lastCell.row]?.length ?? 0) - 1
                         ? [tableSelector, `${tableSelector} *`]
-                        : handleTableSelected(
+                        : */ handleTableSelected(
                               parsedTable,
                               tableSelector,
                               table,
@@ -132,10 +133,12 @@ export const setDOMSelection: SetDOMSelection = (core, selection, skipSelectionC
                     ? core.selection.tableCellSelectionBackgroundColorDark
                     : core.selection.tableCellSelectionBackgroundColor;
                 core.api.setEditorStyle(
-                    core,
-                    DOM_SELECTION_CSS_KEY,
-                    `background-color:${tableSelectionColor}!important;`,
-                    tableSelectors
+                  core,
+                  DOM_SELECTION_CSS_KEY,
+                  // todo: xmail：解决表格选区底色跟内容叠加的问题，只保留一个底色
+                  `box-shadow: inset 0 0 0 10000px ${tableSelectionColor};`,
+                  // `background-color:${tableSelectionColor}!important;`,
+                  tableSelectors
                 );
                 core.api.setEditorStyle(
                     core,
@@ -235,8 +238,9 @@ function handleTableSelected(
                     cellIndex <= lastCell.col
                 ) {
                     const selector = `${tableSelector}${middleElSelector} tr:nth-child(${currentRow})>${cell.tagName}:nth-child(${tdCount})`;
-
-                    selectors.push(selector, selector + ' *');
+                    // todo: xmail：解决表格选区底色跟内容叠加的问题，只保留一个底色
+                    selectors.push(selector);
+                    // selectors.push(selector, selector + ' *');
                 }
             }
         }
