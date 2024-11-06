@@ -17,7 +17,7 @@
 
 
 源码修改记录：
-1、保留表情图片基本样式
+1、a、保留表情图片基本样式
    [1](roosterjs-content-model-plugins/lib/imageEdit/ImageEditPlugin.ts)
    [2](roosterjs-content-model-api/lib/modelApi/common/clearModelFormat.ts)
    [3](roosterjs-content-model-dom/lib/formatHandlers/common/verticalAlignFormatHandler.ts)
@@ -26,6 +26,7 @@
    b、有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动
    c、调整操作句柄样式、支持隐藏侧边句柄
    d、给shadowSpan增加一个属性避免被编辑器过滤掉导致操作手柄不可见
+   e、带有data-uneditable="true"标记的图片不可编辑（如表情图片、地图图片等）
    [1](roosterjs-content-model-plugins/lib/imageEdit/ImageEditPlugin.ts)
    [2](roosterjs-content-model-plugins/lib/imageEdit/utils/createImageWrapper.ts)
    [3](roosterjs-content-model-plugins/lib/imageEdit/Resizer/createImageResizer.ts)

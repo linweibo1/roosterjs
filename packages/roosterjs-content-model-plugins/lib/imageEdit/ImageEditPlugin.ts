@@ -19,7 +19,7 @@ import {
     getSafeIdSelector,
     getSelectedParagraphs,
 
-    // todo: xmail: 保留表情图片基本样式
+    // todo: xmail: 带有data-uneditable="true"标记的图片不可编辑（如表情图片、地图图片等）
     isElementOfType as isElementOfTypeRaw,
 
     isNodeOfType,
@@ -62,7 +62,7 @@ const IMAGE_EDIT_CLASS = 'imageEdit';
 const IMAGE_EDIT_CLASS_CARET = 'imageEditCaretColor';
 const IMAGE_EDIT_FORMAT_EVENT = 'ImageEditEvent';
 
-// todo: xmail: 保留表情图片基本样式
+// todo: xmail: 带有data-uneditable="true"标记的图片不可编辑（如表情图片、地图图片等）
 function isElementOfType<Tag extends keyof HTMLElementTagNameMap>(
     element: HTMLElement,
     tag: Tag
@@ -70,7 +70,10 @@ function isElementOfType<Tag extends keyof HTMLElementTagNameMap>(
     if (!isElementOfTypeRaw(element, tag)) {
         return false;
     }
-    return tag !== 'img' || element.dataset.emoji !== 'true';
+    if (tag === 'img') {
+        return element.dataset.uneditable !== 'true';
+    }
+    return true;
 }
 
 /**
