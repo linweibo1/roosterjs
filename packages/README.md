@@ -47,11 +47,15 @@
 7、解决编辑器focus时滚动条自动滚动的问题
    [1](roosterjs-content-model-core/lib/coreApi/focus/focus.ts)
 
-8、编辑器内容为空时设置居中再清除格式，应该能清除掉居中
+8、解决表格选区底色跟内容叠加的问题，只保留一个底色
+   [1](roosterjs-content-model-core/lib/coreApi/setDOMSelection/setDOMSelection.ts)
+
+9、解决低端浏览器（如windows的QQ浏览器）的报错问题（点击图片时图片编辑插件报错）
+   // 报错信息：setEditorStyle.ts:52 Uncaught DOMException: Failed to execute 'insertRule' on 'CSSStyleSheet': Failed to parse the rule '#contentDiv_0 span:has(>img#image_0) {outline-style:none!important;}'.
+   [1](roosterjs-content-model-core/lib/coreApi/setEditorStyle/setEditorStyle.ts)
+
+10、编辑器内容为空时设置居中再清除格式，应该能清除掉居中
    [1](roosterjs-content-model-api/lib/modelApi/common/clearModelFormat.ts)
 
-9、在某个项目编号中一直减少缩进，要保持不退出项目编号
+11、在某个项目编号中一直减少缩进，要保持不退出项目编号
    [1](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
-
-10、解决表格选区底色跟内容叠加的问题，只保留一个底色
-   [1](roosterjs-content-model-core/lib/coreApi/setDOMSelection/setDOMSelection.ts)
