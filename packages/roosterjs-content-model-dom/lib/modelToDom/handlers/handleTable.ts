@@ -46,6 +46,17 @@ export const handleTable: ContentModelBlockHandler<ContentModelTable> = (
         applyFormat(tableNode, context.formatAppliers.table, table.format, context);
         applyFormat(tableNode, context.formatAppliers.tableBorder, table.format, context);
         applyFormat(tableNode, context.formatAppliers.dataset, table.dataset, context);
+
+        // todo: xmail: 支持表格的border、cellspacing、cellpadding
+        if (table.border) {
+            tableNode.border = table.border;
+        }
+        if (table.cellSpacing) {
+            tableNode.cellSpacing= table.cellSpacing;
+        }
+        if (table.cellPadding) {
+            tableNode.cellPadding= table.cellPadding;
+        }
     }
 
     context.onNodeCreated?.(table, tableNode);

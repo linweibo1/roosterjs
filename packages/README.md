@@ -54,8 +54,18 @@
    // 报错信息：setEditorStyle.ts:52 Uncaught DOMException: Failed to execute 'insertRule' on 'CSSStyleSheet': Failed to parse the rule '#contentDiv_0 span:has(>img#image_0) {outline-style:none!important;}'.
    [1](roosterjs-content-model-core/lib/coreApi/setEditorStyle/setEditorStyle.ts)
 
-10、编辑器内容为空时设置居中再清除格式，应该能清除掉居中
+10、允许音频标签
+   [1](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
+
+11、支持表格的border、cellspacing、cellpadding
+   [1](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
+   [2](roosterjs-content-model-dom/lib/domToModel/processors/tableProcessor.ts)
+   [3](roosterjs-content-model-dom/lib/modelApi/editing/cloneModel.ts)
+   [4](roosterjs-content-model-dom/lib/modelToDom/handlers/handleTable.ts)
+   [5](roosterjs-content-model-types/lib/contentModel/block/ContentModelTable.ts)
+
+12、编辑器内容为空时设置居中再清除格式，应该能清除掉居中
    [1](roosterjs-content-model-api/lib/modelApi/common/clearModelFormat.ts)
 
-11、在某个项目编号中一直减少缩进，要保持不退出项目编号
+13、在某个项目编号中一直减少缩进，要保持不退出项目编号
    [1](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)

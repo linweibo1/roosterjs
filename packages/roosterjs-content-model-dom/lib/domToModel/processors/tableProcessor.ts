@@ -54,6 +54,11 @@ export const tableProcessor: ElementProcessor<HTMLTableElement> = (
                 table.cachedElement = tableElement;
             }
 
+            // todo: xmail: 支持表格的border、cellspacing、cellpadding
+            table.border = tableElement.border;
+            table.cellSpacing = tableElement.cellSpacing;
+            table.cellPadding = tableElement.cellPadding;
+
             context.domIndexer?.onTable(tableElement, table);
 
             parseFormat(tableElement, context.formatParsers.table, table.format, context);
