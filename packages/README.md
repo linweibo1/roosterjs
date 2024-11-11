@@ -27,6 +27,7 @@
    c、调整操作句柄样式、支持隐藏侧边句柄
    d、给shadowSpan增加一个属性避免被编辑器过滤掉导致操作手柄不可见
    e、带有data-uneditable="true"标记的图片不可编辑（如表情图片、地图图片等）
+   f、临时解决在图片右键时无法退出图片编辑的问题
    [1](roosterjs-content-model-plugins/lib/imageEdit/ImageEditPlugin.ts)
    [2](roosterjs-content-model-plugins/lib/imageEdit/utils/createImageWrapper.ts)
    [3](roosterjs-content-model-plugins/lib/imageEdit/Resizer/createImageResizer.ts)

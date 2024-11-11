@@ -169,6 +169,9 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
         this.editor = null;
     }
 
+    // todo: xmail: 临时解决在图片右键时无法退出图片编辑的问题
+    private isJustContentMenu = false;
+
     /**
      * Core method for a plugin. Once an event happens in editor, editor will call this
      * method of each plugin to handle the event as long as the event is not handled
@@ -184,7 +187,12 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
                 this.mouseDownHandler(this.editor, event);
                 break;
             case 'mouseUp':
-                this.mouseUpHandler(this.editor, event);
+                // todo: xmail: 临时解决在图片右键时无法退出图片编辑的问题
+                if (this.isJustContentMenu) {
+                    this.isJustContentMenu = false;
+                } else {
+                    this.mouseUpHandler(this.editor, event);
+                }
                 break;
             case 'keyDown':
                 this.keyDownHandler(this.editor, event);
@@ -197,6 +205,8 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
                 break;
             // todo: xmail: 右键菜单时退出图片编辑，方便右键菜单逻辑的实现
             case 'contextMenu':
+                // todo: xmail: 临时解决在图片右键时无法退出图片编辑的问题
+                this.isJustContentMenu = true;
                 this.applyFormatWithContentModel(
                     this.editor,
                     this.isCropMode,
