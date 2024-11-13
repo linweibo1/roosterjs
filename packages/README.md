@@ -39,8 +39,10 @@
 4、新增的项目编号应该保持跟上一项一样的格式（比如居中）
    [1](roosterjs-content-model-plugins/lib/edit/inputSteps/handleEnterOnList.ts)
 
-5、调整表格插件的操作手柄样式
+5、a、调整表格插件的操作手柄样式
+   b、带有data-uneditable="true"标记的表格不可编辑（比如转发邮件时的邮件基本信息）
    [1](roosterjs-content-model-plugins/lib/tableEdit/editors/features/CellResizer.ts)
+   [2](roosterjs-content-model-plugins/lib/tableEdit/TableEditPlugin.ts)
 
 6、正文很长时，在尾部ctrl+a，再ctrl+c时编辑器会滚到顶部
    [1](roosterjs-content-model-core/lib/corePlugin/copyPaste/CopyPastePlugin.ts)
