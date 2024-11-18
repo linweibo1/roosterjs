@@ -60,15 +60,18 @@
 10、允许音频标签
    [1](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
 
-11、支持表格的border、cellspacing、cellpadding
+11、导出转换style标签为行内样式的函数供外部使用
+   [1](roosterjs-content-model-core/lib/index.ts)
+
+12、支持表格的border、cellspacing、cellpadding
    [1](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
    [2](roosterjs-content-model-dom/lib/domToModel/processors/tableProcessor.ts)
    [3](roosterjs-content-model-dom/lib/modelApi/editing/cloneModel.ts)
    [4](roosterjs-content-model-dom/lib/modelToDom/handlers/handleTable.ts)
    [5](roosterjs-content-model-types/lib/contentModel/block/ContentModelTable.ts)
 
-12、编辑器内容为空时设置居中再清除格式，应该能清除掉居中
+13、编辑器内容为空时设置居中再清除格式，应该能清除掉居中
    [1](roosterjs-content-model-api/lib/modelApi/common/clearModelFormat.ts)
 
-13、在某个项目编号中一直减少缩进，要保持不退出项目编号
+14、在某个项目编号中一直减少缩进，要保持不退出项目编号
    [1](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
