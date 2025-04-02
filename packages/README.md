@@ -75,3 +75,6 @@
 
 14、在某个项目编号中一直减少缩进，要保持不退出项目编号
    [1](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
+
+15、在编辑器中粘贴时要排除文件夹
+   [1](roosterjs-content-model-dom/lib/domUtils/event/extractClipboardItems.ts)
