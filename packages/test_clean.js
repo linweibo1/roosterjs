@@ -49,8 +49,8 @@ function deleteRootDirsAndFiles(rootDir) {
     entries.forEach(entry => {
       const fullPath = path.join(rootDir, entry.name);
 
-      // 删除指定的目录
-      if (entry.isDirectory() && deleteDirs.includes(entry.name)) {
+      // 删除多余的目录
+      if (entry.isDirectory() && !saveDirs.includes(entry.name)) {
         fs.rmdir(fullPath, { recursive: true }, (err) => {
           if (err) {
             console.error(`无法删除目录 ${fullPath}: ${err}`);
@@ -78,10 +78,13 @@ function deleteRootDirsAndFiles(rootDir) {
 const currentDir = process.cwd();
 
 // 要删除的目录和文件
-const deleteDirs = [
-  'roosterjs',
-  'roosterjs-color-utils',
-  'roosterjs-react',
+const saveDirs = [
+  'roosterjs-content-model-api',
+  'roosterjs-content-model-core',
+  'roosterjs-content-model-dom',
+  'roosterjs-content-model-plugins',
+  'roosterjs-content-model-types',
+  'roosterjs-editor-adapter',
 ];
 
 const deleteFiles = [
