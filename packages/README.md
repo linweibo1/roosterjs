@@ -55,34 +55,34 @@
    - [CellResizer.ts](roosterjs-content-model-plugins/lib/tableEdit/editors/features/CellResizer.ts)
    - [TableEditPlugin.ts](roosterjs-content-model-plugins/lib/tableEdit/TableEditPlugin.ts)
 
-### 6. 复制时滚动问题
+### 6. 焦点和滚动问题
 - 解决正文很长时，在尾部 ctrl+a 再 ctrl+c 时编辑器会滚到顶部的问题
-   - [CopyPastePlugin.ts](roosterjs-content-model-core/lib/corePlugin/copyPaste/CopyPastePlugin.ts)
-
-### 7. 焦点滚动问题
 - 解决编辑器 focus 时滚动条自动滚动的问题
+- 粘贴之后光标离滚动容器底部要保持一定距离，避免选择性粘贴按钮被挡住
+   - [CopyPastePlugin.ts](roosterjs-content-model-core/lib/corePlugin/copyPaste/CopyPastePlugin.ts)
    - [focus.ts](roosterjs-content-model-core/lib/coreApi/focus/focus.ts)
+   - [scrollCaretIntoView.ts](roosterjs-content-model-core/lib/coreApi/formatContentModel/scrollCaretIntoView.ts)
 
-### 8. 表格选区底色
+### 7. 表格选区底色
 - 解决表格选区底色跟内容叠加的问题，只保留一个底色
    - [setDOMSelection.ts](roosterjs-content-model-core/lib/coreApi/setDOMSelection/setDOMSelection.ts)
 
-### 9. 低端浏览器兼容
+### 8. 低端浏览器兼容
 - 解决低端浏览器（如 windows 的 QQ 浏览器）的报错问题（点击图片时图片编辑插件报错）：
 - ```
   setEditorStyle.ts:52 Uncaught DOMException: Failed to execute 'insertRule' on 'CSSStyleSheet': Failed to parse the rule '#contentDiv_0 span:has(>img#image_0) {outline-style:none!important;}'.
   ```
    - [setEditorStyle.ts](roosterjs-content-model-core/lib/coreApi/setEditorStyle/setEditorStyle.ts)
 
-### 10. 音频标签支持
+### 9. 音频标签支持
 - 允许音频标签
    - [sanitizeElement.ts](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
 
-### 11. 样式转换函数导出
+### 10. 样式转换函数导出
 - 导出转换 style 标签为行内样式的函数供外部使用
    - [index.ts](roosterjs-content-model-core/lib/index.ts)
 
-### 12. 表格属性支持
+### 11. 表格属性支持
 - 支持表格的 border、cellspacing、cellpadding
    - [sanitizeElement.ts](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
    - [tableProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/tableProcessor.ts)
@@ -90,18 +90,18 @@
    - [handleTable.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleTable.ts)
    - [ContentModelTable.ts](roosterjs-content-model-types/lib/contentModel/block/ContentModelTable.ts)
 
-### 13. 居中格式清除
+### 12. 居中格式清除
 - 编辑器内容为空时设置居中再清除格式，应该能清除掉居中
    - [clearModelFormat.ts](roosterjs-content-model-api/lib/modelApi/common/clearModelFormat.ts)
 
-### 14. 项目编号缩进
+### 13. 项目编号缩进
 - 在某个项目编号中一直减少缩进，要保持不退出项目编号
    - [setModelIndentation.ts](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
 
-### 15. 粘贴排除文件夹
+### 14. 粘贴排除文件夹
 - 在编辑器中粘贴时要排除文件夹
    - [extractClipboardItems.ts](roosterjs-content-model-dom/lib/domUtils/event/extractClipboardItems.ts)
 
-### 16. Redo快捷键兼容
+### 15. Redo快捷键兼容
 - mac 下 command + y 也可以执行 redo
   - [shortcuts.ts](packages/roosterjs-content-model-plugins/lib/shortcut/shortcuts.ts)
