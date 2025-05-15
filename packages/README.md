@@ -95,6 +95,8 @@
    - [clearModelFormat.ts](roosterjs-content-model-api/lib/modelApi/common/clearModelFormat.ts)
 
 ### 13. 项目编号缩进
+- 缩进步长改为28px，默认字号通常是14，缩进应该是2个字符
+  - [setModelIndentation.ts](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
 - 在某个项目编号中一直减少缩进，要保持不退出项目编号
    - [setModelIndentation.ts](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
 

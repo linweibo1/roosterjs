@@ -20,7 +20,9 @@ import type {
     ReadonlyContentModelListItem,
 } from 'roosterjs-content-model-types';
 
-const IndentStepInPixel = 40;
+// todo: xmail: 缩进步长改为28px，默认字号通常是14，缩进应该是2个字符
+const IndentStepInPixel = 28;
+// const IndentStepInPixel = 40;
 
 /**
  * @param model The content model to set indentation
