@@ -45,7 +45,7 @@ export function createImageWrapper(
     }
     let resizers: HTMLDivElement[] = [];
     if (operation.indexOf('resize') > -1) {
-        // todo: xmail: 调整操作句柄样式
+        // todo: xmail: 调整操作手柄样式
         resizers = createImageResizer(doc, options);
     }
 
