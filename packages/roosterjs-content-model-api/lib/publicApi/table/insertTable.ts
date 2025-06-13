@@ -8,7 +8,8 @@ import {
     normalizeTable,
     setSelection,
 } from 'roosterjs-content-model-dom';
-import type { IEditor, TableMetadataFormat } from 'roosterjs-content-model-types';
+// todo: xmail: 插入单元格时支持定义单元格样式
+import type { IEditor, TableMetadataFormat, ContentModelTableCellFormat } from 'roosterjs-content-model-types';
 
 /**
  * Insert table into editor at current selection
@@ -17,13 +18,17 @@ import type { IEditor, TableMetadataFormat } from 'roosterjs-content-model-types
  * if columns &lt;= 4, width = 120px; if columns &lt;= 6, width = 100px; else width = 70px
  * @param rows Number of rows in table
  * @param format (Optional) The table format. If not passed, the default format will be applied:
+ * // todo: xmail: 插入单元格时支持定义单元格样式
+ * @param cellFormat 单元格格式
  * background color: #FFF; border color: #ABABAB
  */
 export function insertTable(
     editor: IEditor,
     columns: number,
     rows: number,
-    format?: Partial<TableMetadataFormat>
+    format?: Partial<TableMetadataFormat>,
+    // todo: xmail: 插入单元格时支持定义单元格样式
+    cellFormat?: ContentModelTableCellFormat,
 ) {
     editor.focus();
 
@@ -33,7 +38,8 @@ export function insertTable(
 
             if (insertPosition) {
                 const doc = createContentModelDocument();
-                const table = createTableStructure(doc, columns, rows);
+                // todo: xmail: 插入单元格时支持定义单元格样式
+                const table = createTableStructure(doc, columns, rows, cellFormat);
 
                 normalizeTable(table, editor.getPendingFormat() || insertPosition.marker.format);
                 // Assign default vertical align

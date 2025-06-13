@@ -64,39 +64,12 @@
     -   [CellResizer.ts](roosterjs-content-model-plugins/lib/tableEdit/editors/features/CellResizer.ts)
     -   [TableEditPlugin.ts](roosterjs-content-model-plugins/lib/tableEdit/TableEditPlugin.ts)
 
-### 6. 焦点和滚动问题
-
--   解决正文很长时，在尾部 ctrl+a 再 ctrl+c 时编辑器会滚到顶部的问题
--   解决编辑器 focus 时滚动条自动滚动的问题
--   粘贴之后光标离滚动容器底部要保持一定距离，避免选择性粘贴按钮被挡住
-    -   [CopyPastePlugin.ts](roosterjs-content-model-core/lib/corePlugin/copyPaste/CopyPastePlugin.ts)
-    -   [focus.ts](roosterjs-content-model-core/lib/coreApi/focus/focus.ts)
-    -   [scrollCaretIntoView.ts](roosterjs-content-model-core/lib/coreApi/formatContentModel/scrollCaretIntoView.ts)
-
-### 7. 表格选区底色
+### 6. 表格选区底色
 
 -   解决表格选区底色跟内容叠加的问题，只保留一个底色
     -   [setDOMSelection.ts](roosterjs-content-model-core/lib/coreApi/setDOMSelection/setDOMSelection.ts)
 
-### 8. 低端浏览器兼容
-
--   解决低端浏览器（如 windows 的 QQ 浏览器）的报错问题（点击图片时图片编辑插件报错）：
--   ```
-    setEditorStyle.ts:52 Uncaught DOMException: Failed to execute 'insertRule' on 'CSSStyleSheet': Failed to parse the rule '#contentDiv_0 span:has(>img#image_0) {outline-style:none!important;}'.
-    ```
-    -   [setEditorStyle.ts](roosterjs-content-model-core/lib/coreApi/setEditorStyle/setEditorStyle.ts)
-
-### 9. 音频标签支持
-
--   允许音频标签
-    -   [sanitizeElement.ts](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
-
-### 10. 样式转换函数导出
-
--   导出转换 style 标签为行内样式的函数供外部使用
-    -   [index.ts](roosterjs-content-model-core/lib/index.ts)
-
-### 11. 表格属性支持
+### 7. 表格属性支持
 
 -   支持表格的 border、cellspacing、cellpadding
     -   [sanitizeElement.ts](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
@@ -105,29 +78,62 @@
     -   [handleTable.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleTable.ts)
     -   [ContentModelTable.ts](roosterjs-content-model-types/lib/contentModel/block/ContentModelTable.ts)
 
-### 12. 居中格式清除
+### 8. 表格自定义单元格格式支持
+
+-   插入单元格时支持定义单元格样式
+    -   [insertTable.ts](roosterjs-content-model-api/lib/publicApi/table/insertTable.ts)
+    -   [createTableStructure.ts](roosterjs-content-model-api/lib/modelApi/table/createTableStructure.ts)
+
+### 9. 焦点和滚动问题
+
+-   解决正文很长时，在尾部 ctrl+a 再 ctrl+c 时编辑器会滚到顶部的问题
+-   解决编辑器 focus 时滚动条自动滚动的问题
+-   粘贴之后光标离滚动容器底部要保持一定距离，避免选择性粘贴按钮被挡住
+    -   [CopyPastePlugin.ts](roosterjs-content-model-core/lib/corePlugin/copyPaste/CopyPastePlugin.ts)
+    -   [focus.ts](roosterjs-content-model-core/lib/coreApi/focus/focus.ts)
+    -   [scrollCaretIntoView.ts](roosterjs-content-model-core/lib/coreApi/formatContentModel/scrollCaretIntoView.ts)
+
+### 10. 低端浏览器兼容
+
+-   解决低端浏览器（如 windows 的 QQ 浏览器）的报错问题（点击图片时图片编辑插件报错）：
+-   ```
+    setEditorStyle.ts:52 Uncaught DOMException: Failed to execute 'insertRule' on 'CSSStyleSheet': Failed to parse the rule '#contentDiv_0 span:has(>img#image_0) {outline-style:none!important;}'.
+    ```
+    -   [setEditorStyle.ts](roosterjs-content-model-core/lib/coreApi/setEditorStyle/setEditorStyle.ts)
+
+### 11. 音频标签支持
+
+-   允许音频标签
+    -   [sanitizeElement.ts](roosterjs-content-model-core/lib/command/createModelFromHtml/sanitizeElement.ts)
+
+### 12. 样式转换函数导出
+
+-   导出转换 style 标签为行内样式的函数供外部使用
+    -   [index.ts](roosterjs-content-model-core/lib/index.ts)
+
+### 13. 居中格式清除
 
 -   编辑器内容为空时设置居中再清除格式，应该能清除掉居中
     -   [clearModelFormat.ts](roosterjs-content-model-api/lib/modelApi/common/clearModelFormat.ts)
 
-### 13. 项目编号缩进
+### 14. 项目编号缩进
 
 -   缩进步长改为 28px，默认字号通常是 14，缩进应该是 2 个字符
     -   [setModelIndentation.ts](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
 -   在某个项目编号中一直减少缩进，要保持不退出项目编号
     -   [setModelIndentation.ts](roosterjs-content-model-api/lib/modelApi/block/setModelIndentation.ts)
 
-### 14. 粘贴排除文件夹
+### 15. 粘贴排除文件夹
 
 -   在编辑器中粘贴时要排除文件夹
     -   [extractClipboardItems.ts](roosterjs-content-model-dom/lib/domUtils/event/extractClipboardItems.ts)
 
-### 15. Redo 快捷键兼容
+### 16. Redo 快捷键兼容
 
 -   mac 下 command + y 也可以执行 redo
     -   [shortcuts.ts](roosterjs-content-model-plugins/lib/shortcut/shortcuts.ts)
 
-### 16. 字体大小隐射兼容
+### 17. 字体大小映射兼容
 
--   修改字体大小转换隐射表，确保转换前后在浏览器视觉上大小一致
+-   修改字体大小转换映射表，确保转换前后在浏览器视觉上大小一致
     -   [fontSizeFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/segment/fontSizeFormatHandler.ts)

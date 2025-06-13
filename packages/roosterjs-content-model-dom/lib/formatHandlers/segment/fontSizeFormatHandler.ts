@@ -34,7 +34,7 @@ export const fontSizeFormatHandler: FormatHandler<FontSizeFormat> = {
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
 const KnownFontSizes: Record<string, string> = {
-    // todo: xmail: 修改字体大小转换隐射表，确保转换前后在浏览器视觉上大小一致
+    // todo: xmail: 修改字体大小转换映射表，确保转换前后在浏览器视觉上大小一致
     'xx-small': '12px', // '6.75pt',
     'x-small': '12px', // '7.5pt',
     small: '13px', // '9.75pt',
