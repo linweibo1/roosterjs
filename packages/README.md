@@ -137,3 +137,8 @@
 
 -   修改字体大小转换映射表，确保转换前后在浏览器视觉上大小一致
     -   [fontSizeFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/segment/fontSizeFormatHandler.ts)
+
+### 18. 段落标签优化
+
+-   将段落标签从`p`改为`div`，避免复制内容粘贴到记事本时每个标签后面都多一个换行
+    -   [setParagraphMargin.ts](roosterjs-content-model-api/lib/publicApi/block/setParagraphMargin.ts)

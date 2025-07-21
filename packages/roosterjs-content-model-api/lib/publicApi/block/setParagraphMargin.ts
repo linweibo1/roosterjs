@@ -18,7 +18,9 @@ export function setParagraphMargin(
 
     formatParagraphWithContentModel(editor, 'setParagraphMargin', para => {
         if (!para.decorator) {
-            para.decorator = createParagraphDecorator('p');
+            // todo: xmail: 将段落标签从p改为div，避免复制内容粘贴到记事本时每个标签后面都多一个换行
+            para.decorator = createParagraphDecorator('div');
+            // para.decorator = createParagraphDecorator('p');
         }
 
         if (marginTop) {
