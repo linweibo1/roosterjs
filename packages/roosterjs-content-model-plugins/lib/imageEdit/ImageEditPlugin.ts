@@ -20,7 +20,9 @@ import {
     ChangeSource,
     getSafeIdSelector,
     getSelectedParagraphs,
-    isElementOfType,
+
+    // todo: xmail: 带有data-uneditable="true"标记的图片不可编辑（如表情图片、地图图片等）
+    isElementOfType as isElementOfTypeRaw,
     isNodeOfType,
     mutateBlock,
     mutateSegment,
@@ -60,6 +62,20 @@ const DRAG_ID = '_dragging';
 const IMAGE_EDIT_CLASS = 'imageEdit';
 const IMAGE_EDIT_CLASS_CARET = 'imageEditCaretColor';
 const IMAGE_EDIT_FORMAT_EVENT = 'ImageEditEvent';
+
+// todo: xmail: 带有data-uneditable="true"标记的图片不可编辑（如表情图片、地图图片等）
+function isElementOfType<Tag extends keyof HTMLElementTagNameMap>(
+    element: HTMLElement,
+    tag: Tag
+): element is HTMLElementTagNameMap[Tag] {
+    if (!isElementOfTypeRaw(element, tag)) {
+        return false;
+    }
+    if (tag === 'img') {
+        return element.dataset.uneditable !== 'true';
+    }
+    return true;
+}
 
 /**
  * ImageEdit plugin handles the following image editing features:
@@ -157,6 +173,9 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
         this.editor = null;
     }
 
+    // todo: xmail: 临时解决在图片右键时无法退出图片编辑的问题
+    private isJustContentMenu = false;
+
     /**
      * Core method for a plugin. Once an event happens in editor, editor will call this
      * method of each plugin to handle the event as long as the event is not handled
@@ -172,7 +191,12 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
                 this.mouseDownHandler(this.editor, event);
                 break;
             case 'mouseUp':
-                this.mouseUpHandler(this.editor, event);
+                // todo: xmail: 临时解决在图片右键时无法退出图片编辑的问题
+                if (this.isJustContentMenu) {
+                    this.isJustContentMenu = false;
+                } else {
+                    this.mouseUpHandler(this.editor, event);
+                }
                 break;
             case 'keyDown':
                 this.keyDownHandler(this.editor, event);
@@ -186,6 +210,15 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
             case 'beforeLogicalRootChange':
                 this.handleBeforeLogicalRootChange();
                 break;
+            // todo: xmail: 右键菜单时退出图片编辑，方便右键菜单逻辑的实现
+            case 'contextMenu':
+                // todo: xmail: 临时解决在图片右键时无法退出图片编辑的问题
+                this.isJustContentMenu = true;
+                this.applyFormatWithContentModel(
+                    this.editor,
+                    this.isCropMode,
+                    true /* shouldSelectImage */
+                );
         }
     }
 

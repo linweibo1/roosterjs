@@ -10,6 +10,8 @@ import {
     updateTableMetadata,
 } from 'roosterjs-content-model-dom';
 import type {
+    // todo: xmail: 保留表情图片基本样式
+    ContentModelImageFormat,
     ContentModelSegmentFormat,
     ContentModelTable,
     ReadonlyContentModelBlock,
@@ -118,7 +120,18 @@ function clearSegmentsFormat(
     defaultSegmentFormat: Readonly<ContentModelSegmentFormat> | undefined
 ) {
     segmentsToClear.forEach(x => {
-        x.format = { ...(defaultSegmentFormat || {}) };
+        // todo: xmail: 保留表情图片基本样式
+        const emojiFormat: ContentModelImageFormat = {};
+        if (x.segmentType === 'Image' && x.dataset.emoji === 'true') {
+            emojiFormat.height = x.format.height;
+            emojiFormat.width = x.format.width;
+            emojiFormat.display = x.format.display;
+            emojiFormat.verticalAlign = x.format.verticalAlign;
+            emojiFormat.paddingBottom = x.format.paddingBottom;
+        }
+        x.format = { ...(defaultSegmentFormat || {}), ...emojiFormat };
+
+        // x.format = { ...(defaultSegmentFormat || {}) };
 
         if (x.link) {
             delete x.link.format.textColor;

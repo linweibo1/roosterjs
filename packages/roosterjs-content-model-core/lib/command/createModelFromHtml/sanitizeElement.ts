@@ -11,6 +11,10 @@ export const AllowedTags: ReadonlyArray<string> = [
     'area',
     'article',
     'aside',
+
+    // todo: xmail: 允许音频标签
+    'audio',
+
     'b',
     'bdi',
     'bdo',
@@ -113,7 +117,10 @@ export const AllowedTags: ReadonlyArray<string> = [
  */
 export const DisallowedTags: ReadonlyArray<string> = [
     'applet',
-    'audio',
+
+    // todo: xmail: 允许音频标签
+    // 'audio',
+
     'base',
     'basefont',
     'embed',
@@ -142,6 +149,12 @@ const AllowedAttributes = [
     'accept',
     'align',
     'alt',
+
+    // todo: xmail: 支持表格的border、cellspacing、cellpadding
+    'border',
+    'cellspacing',
+    'cellpadding',
+
     'checked',
     'cite',
     'class',
@@ -150,6 +163,10 @@ const AllowedAttributes = [
     'colspan',
     'contextmenu',
     'coords',
+
+    // todo: xmail: 允许音频标签
+    'controls',
+
     'datetime',
     'default',
     'dir',

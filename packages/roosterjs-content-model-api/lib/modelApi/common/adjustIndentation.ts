@@ -13,7 +13,8 @@ const NON_BREAK_SPACES = '\u00A0';
 /**
  * @internal
  */
-export const IndentStepInPixel = 40;
+// todo: xmail: 缩进步长改为28px，默认字号通常是14，缩进应该是2个字符
+export const IndentStepInPixel = 28;
 
 function countTabsSpaces(text: string) {
     const spaces = countSpacesBeforeText(text);

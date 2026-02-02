@@ -31,6 +31,11 @@ export interface ContentModelTable
      * Cells of this table
      */
     rows: ContentModelTableRow[];
+
+    // todo: xmail: 支持表格的border、cellspacing、cellpadding
+    border?: string;
+    cellSpacing?: string;
+    cellPadding?: string;
 }
 
 /**
@@ -48,6 +53,11 @@ export interface ReadonlyContentModelTable
      * Cells of this table
      */
     readonly rows: ReadonlyArray<ReadonlyContentModelTableRow>;
+
+    // todo: xmail: 支持表格的border、cellspacing、cellpadding
+    readonly border?: string;
+    readonly cellSpacing?: string;
+    readonly cellPadding?: string;
 }
 
 /**
@@ -65,4 +75,9 @@ export interface ShallowMutableContentModelTable
      * Cells of this table
      */
     rows: ShallowMutableContentModelTableRow[];
+
+    // todo: xmail: 支持表格的border、cellspacing、cellpadding
+    border?: string;
+    cellSpacing?: string;
+    cellPadding?: string;
 }

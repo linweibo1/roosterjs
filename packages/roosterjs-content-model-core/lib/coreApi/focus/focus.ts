@@ -15,7 +15,8 @@ export const focus: Focus = core => {
 
         // fallback, in case editor still have no focus
         if (!domHelper.hasFocus()) {
-            core.logicalRoot.focus();
+            // todo：xmail：解决编辑器focus时滚动条自动滚动的问题
+            core.logicalRoot.focus({ preventScroll: true });
         }
     }
 };

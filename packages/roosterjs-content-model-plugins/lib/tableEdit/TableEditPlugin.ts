@@ -186,6 +186,11 @@ export class TableEditPlugin implements EditorPlugin {
 
             const tables = this.tableSelector(this.editor.getDOMHelper());
             tables.forEach(table => {
+                // todo: xmail：带有data-uneditable="true"标记的表格不可编辑（比如转发邮件时的邮件基本信息）
+                if (!table.table.isContentEditable || table.table.dataset.uneditable === 'true') {
+                    return;
+                }
+
                 const rect = normalizeRect(table.table.getBoundingClientRect());
 
                 if (rect && this.tableRectMap) {

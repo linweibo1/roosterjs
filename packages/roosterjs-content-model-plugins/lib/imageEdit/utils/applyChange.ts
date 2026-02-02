@@ -80,6 +80,12 @@ export function applyChange(
         contentModelImage.src = newSrc;
 
         if (wasResizedOrCropped || state == 'FullyChanged') {
+            // todo: xmail: 图片调整了大小后需要去掉宽高限制，保证图片不变形
+            contentModelImage.format.maxWidth = undefined;
+            contentModelImage.format.minWidth = undefined;
+            contentModelImage.format.maxHeight = undefined;
+            contentModelImage.format.minHeight = undefined;
+
             contentModelImage.format.width = generatedImageSize.targetWidth + 'px';
             contentModelImage.format.height = generatedImageSize.targetHeight + 'px';
         }

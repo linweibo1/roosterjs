@@ -26,6 +26,8 @@ export function scrollCaretIntoView(core: EditorCore, selection: RangeSelection 
     const scrollContainer = core.domEvent.scrollContainer;
 
     if (rect && visibleRect) {
-        scrollRectIntoView(scrollContainer, visibleRect, core.domHelper, rect);
+        // todo: xmail: 粘贴之后光标离滚动容器底部要保持一定距离，避免选择性粘贴按钮被挡住
+        const bottomOffset = 60;
+        scrollRectIntoView(scrollContainer, visibleRect, core.domHelper, rect, bottomOffset);
     }
 }

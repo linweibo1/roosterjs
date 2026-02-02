@@ -51,7 +51,9 @@ export function extractClipboardItems(
             } else if (item.kind == 'file') {
                 return new Promise<void>(resolve => {
                     const file = item.getAsFile();
-                    if (!!file) {
+                    // todo: xmail: 粘贴时要排除文件夹
+                    const entry = item.webkitGetAsEntry();
+                    if (file && !entry?.isDirectory) {
                         data.types.push(type);
                         data.files!.push(file);
                     }

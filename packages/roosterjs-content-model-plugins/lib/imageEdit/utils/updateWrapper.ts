@@ -62,7 +62,9 @@ export function updateWrapper(
 
     // Update size and margin of the wrapper
     wrapper.style.marginTop = `${marginVertical}px`;
-    wrapper.style.marginBottom = `${marginVertical + 5}px `; // 5px to adjust the image on top of the handles
+    // todo: xmail: 有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动，也要避免上下图片之间留缝隙
+    wrapper.style.marginBottom = `${marginVertical}px `;
+    // wrapper.style.marginBottom = `${marginVertical + 5}px `; // 5px to adjust the image on top of the handles
     wrapper.style.marginLeft = `${marginHorizontal}px`;
     wrapper.style.marginRight = `${marginHorizontal}px`;
 

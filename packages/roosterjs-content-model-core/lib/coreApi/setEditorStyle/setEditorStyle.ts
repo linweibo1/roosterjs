@@ -49,7 +49,13 @@ export const setEditorStyle: SetEditorStyle = (
                   );
 
             selectors.forEach(selector => {
-                sheet.insertRule(`${selector} {${cssRule}}`);
+                // todo: xmail: 解决低端浏览器（如windows的QQ浏览器）的报错问题（点击图片时图片编辑插件报错）
+                // 报错信息：setEditorStyle.ts:52 Uncaught DOMException: Failed to execute 'insertRule' on 'CSSStyleSheet': Failed to parse the rule '#contentDiv_0 span:has(>img#image_0) {outline-style:none!important;}'.
+                try {
+                    sheet.insertRule(`${selector} {${cssRule}}`);
+                } catch (e) {
+                    console.error(e);
+                }
             });
         }
     }

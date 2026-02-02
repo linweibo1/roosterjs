@@ -4,6 +4,10 @@ import { isElementOfType, isNodeOfType } from 'roosterjs-content-model-dom';
 import { Xs, Ys } from '../constants/constants';
 import type { CreateElementData } from '../../pluginUtils/CreateElement/CreateElementData';
 import type { DNDDirectionX, DnDDirectionY } from '../types/DragAndDropContext';
+
+// todo: xmail: 调整操作手柄样式
+import type { ImageEditOptions } from '../types/ImageEditOptions';
+
 /**
  * @internal
  */
@@ -11,20 +15,27 @@ export interface OnShowResizeHandle {
     (elementData: CreateElementData, x: DNDDirectionX, y: DnDDirectionY): void;
 }
 
-const RESIZE_HANDLE_MARGIN = 6;
-const RESIZE_HANDLE_SIZE = 10;
+// todo: xmail: 调整操作手柄样式
+const RESIZE_HANDLE_MARGIN = 9;
+const RESIZE_HANDLE_SIZE = 12;
 
 /**
  * @internal
  */
 export function createImageResizer(
     doc: Document,
-    disableSideResize: boolean,
+    // todo: xmail: 调整操作手柄样式
+    options: ImageEditOptions,
     onShowResizeHandle?: OnShowResizeHandle
 ): HTMLDivElement[] {
-    const cornerElements = getCornerResizeHTML(onShowResizeHandle);
-    const sideElements = getSideResizeHTML(onShowResizeHandle);
-    const handles = disableSideResize ? cornerElements : cornerElements.concat(sideElements);
+    // todo: xmail: 调整操作手柄样式
+    const cornerElements = getCornerResizeHTML(options, onShowResizeHandle);
+    // todo: xmail: 调整操作手柄样式
+    const sideElements = getSideResizeHTML(options, onShowResizeHandle);
+    // todo: xmail: 调整操作手柄样式
+    const handles = options.disableSideResize
+        ? cornerElements
+        : cornerElements.concat(sideElements);
 
     return handles
         .map(element => {
@@ -39,13 +50,18 @@ export function createImageResizer(
 /**
  * @internal
  * Get HTML for resize handles at the corners
+ * todo: xmail: 调整操作手柄样式
  */
-function getCornerResizeHTML(onShowResizeHandle?: OnShowResizeHandle): CreateElementData[] {
+function getCornerResizeHTML(
+    options: ImageEditOptions,
+    onShowResizeHandle?: OnShowResizeHandle
+): CreateElementData[] {
     const result: CreateElementData[] = [];
 
     Xs.forEach(x =>
         Ys.forEach(y => {
-            const elementData = (x == '') == (y == '') ? getResizeHandleHTML(x, y) : null;
+            // todo: xmail: 调整操作手柄样式
+            const elementData = (x == '') == (y == '') ? getResizeHandleHTML(x, y, options) : null;
             if (onShowResizeHandle && elementData) {
                 onShowResizeHandle(elementData, x, y);
             }
@@ -60,12 +76,17 @@ function getCornerResizeHTML(onShowResizeHandle?: OnShowResizeHandle): CreateEle
 /**
  * @internal
  * Get HTML for resize handles on the sides
+ * todo: xmail: 调整操作手柄样式
  */
-function getSideResizeHTML(onShowResizeHandle?: OnShowResizeHandle): CreateElementData[] {
+function getSideResizeHTML(
+    options: ImageEditOptions,
+    onShowResizeHandle?: OnShowResizeHandle
+): CreateElementData[] {
     const result: CreateElementData[] = [];
     Xs.forEach(x =>
         Ys.forEach(y => {
-            const elementData = (x == '') != (y == '') ? getResizeHandleHTML(x, y) : null;
+            // todo: xmail: 调整操作手柄样式
+            const elementData = (x == '') != (y == '') ? getResizeHandleHTML(x, y, options) : null;
             if (onShowResizeHandle && elementData) {
                 onShowResizeHandle(elementData, x, y);
             }
@@ -77,11 +98,24 @@ function getSideResizeHTML(onShowResizeHandle?: OnShowResizeHandle): CreateEleme
     return result;
 }
 
-const createHandleStyle = (direction: string, topOrBottom: string, leftOrRight: string) => {
-    return `position:relative;width:${RESIZE_HANDLE_SIZE}px;height:${RESIZE_HANDLE_SIZE}px;background-color: #FFFFFF;cursor:${direction}-resize;${topOrBottom}:-${RESIZE_HANDLE_MARGIN}px;${leftOrRight}:-${RESIZE_HANDLE_MARGIN}px;border-radius:100%;border: 2px solid #bfbfbf;box-shadow: 0px 0.36316px 1.36185px rgba(100, 100, 100, 0.25);`;
+// todo: xmail: 调整操作手柄样式
+const createHandleStyle = (
+    direction: string,
+    topOrBottom: string,
+    leftOrRight: string,
+    options: ImageEditOptions
+) => {
+    return `position:relative;width:${RESIZE_HANDLE_SIZE}px;height:${RESIZE_HANDLE_SIZE}px;background-color: ${
+        options.borderColor || '#DB626C'
+    };cursor:${direction}-resize;${topOrBottom}:-${RESIZE_HANDLE_MARGIN}px;${leftOrRight}:-${RESIZE_HANDLE_MARGIN}px;border-radius:100%;border: 2px solid #fff;box-shadow: 0px 0.36316px 1.36185px rgba(100, 100, 100, 0.25);`;
 };
 
-function getResizeHandleHTML(x: DNDDirectionX, y: DnDDirectionY): CreateElementData | null {
+// todo: xmail: 调整操作手柄样式
+function getResizeHandleHTML(
+    x: DNDDirectionX,
+    y: DnDDirectionY,
+    options: ImageEditOptions
+): CreateElementData | null {
     const leftOrRight = x == 'w' ? 'left' : 'right';
     const topOrBottom = y == 'n' ? 'top' : 'bottom';
     const leftOrRightValue = x == '' ? '50%' : '0px';
@@ -95,7 +129,7 @@ function getResizeHandleHTML(x: DNDDirectionX, y: DnDDirectionY): CreateElementD
               children: [
                   {
                       tag: 'div',
-                      style: createHandleStyle(direction, topOrBottom, leftOrRight),
+                      style: createHandleStyle(direction, topOrBottom, leftOrRight, options),
                       className: ImageEditElementClass.ResizeHandle,
                       dataset: { x, y },
                   },

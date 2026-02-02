@@ -229,6 +229,11 @@ function cloneTable(
             cachedElement: handleCachedElement(cachedElement, 'cache', options),
             widths: Array.from(widths),
             rows: rows.map(row => cloneTableRow(row, options)),
+
+            // todo: xmail: 支持表格的border、cellspacing、cellpadding
+            border: table.border,
+            cellSpacing: table.cellSpacing,
+            cellPadding: table.cellPadding,
         },
         cloneBlockBase(table),
         cloneModelWithDataset(table)

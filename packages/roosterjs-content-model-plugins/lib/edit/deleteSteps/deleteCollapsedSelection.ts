@@ -146,13 +146,15 @@ function shouldOutdentParagraph(
  * So that if this is an empty paragraph, it will start to delete next block
  */
 function fixupBr(paragraph: ReadonlyContentModelParagraph) {
-    const { segments } = paragraph;
-
-    if (segments[segments.length - 1]?.segmentType == 'Br') {
-        const segmentsWithoutBr = segments.filter(x => x.segmentType != 'SelectionMarker');
-
-        if (segmentsWithoutBr[segmentsWithoutBr.length - 2]?.segmentType != 'Br') {
-            mutateBlock(paragraph).segments.pop();
-        }
-    }
+    // todo: xmail: 删除全部内容之后最后的br要保留，否则比如空白编辑器中插入分割线之后删除，br一起被删除，
+    //  此时光标在火狐浏览器中太偏上，而且插入“引用”时会因为没有br而导致内容为空而看不见引用标签
+    // const { segments } = paragraph;
+    //
+    // if (segments[segments.length - 1]?.segmentType == 'Br') {
+    //     const segmentsWithoutBr = segments.filter(x => x.segmentType != 'SelectionMarker');
+    //
+    //     if (segmentsWithoutBr[segmentsWithoutBr.length - 2]?.segmentType != 'Br') {
+    //         mutateBlock(paragraph).segments.pop();
+    //     }
+    // }
 }
