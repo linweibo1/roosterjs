@@ -74,6 +74,53 @@ function deleteRootDirsAndFiles(rootDir) {
     });
 }
 
+/**
+ * 将本地包间引用（roosterjs-content-model-*）从包名形式转为相对路径形式
+ * 例如：from 'roosterjs-content-model-dom' => from '../../roosterjs-content-model-dom/lib/index'
+ * 深度根据文件相对于 packages 根目录的位置动态计算
+ */
+function replacePackageImports(packagesDir) {
+    // 匹配 from 'roosterjs-content-model-xxx' 形式的 import（不匹配带子路径的）
+    const importRegex = /from '(roosterjs-content-model-(?:api|core|dom|plugins|types))'/g;
+
+    function processDir(dir) {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+                processDir(fullPath);
+            } else if (entry.isFile() && /\.tsx?$/.test(entry.name)) {
+                const content = fs.readFileSync(fullPath, 'utf8');
+                if (!importRegex.test(content)) {
+                    continue;
+                }
+                // 重置 lastIndex
+                importRegex.lastIndex = 0;
+
+                // 计算当前文件到 packages 根目录的相对路径
+                const relativeFromPackages = path.relative(packagesDir, fullPath);
+                // 文件所在目录相对于 packages 的路径
+                const fileDir = path.dirname(relativeFromPackages);
+                // fileDir 形如 "roosterjs-content-model-api/lib/modelApi/block"
+                // 需要回到 packages 根目录的 "../" 层数 = fileDir 中的目录层数
+                const depth = fileDir.split(path.sep).length;
+                const prefix = '../'.repeat(depth);
+
+                const newContent = content.replace(importRegex, (match, pkgName) => {
+                    return `from '${prefix}${pkgName}/lib/index'`;
+                });
+
+                if (newContent !== content) {
+                    fs.writeFileSync(fullPath, newContent, 'utf8');
+                    // console.log(`已替换包间引用: ${relativeFromPackages}`);
+                }
+            }
+        }
+    }
+
+    processDir(packagesDir);
+}
+
 // 获取当前工作目录
 const currentDir = process.cwd();
 
@@ -87,10 +134,13 @@ const saveDirs = [
     'roosterjs-editor-adapter',
 ];
 
-const deleteFiles = ['tsconfig.test.json'];
+const deleteFiles = ['tsconfig.test.json', 'tsconfig.json'];
 
-// 先删除根目录下的指定目录和文件
+// 先将本地包间引用转为相对路径（同步执行）
+replacePackageImports(currentDir);
+
+// 删除根目录下的指定目录和文件
 deleteRootDirsAndFiles(currentDir);
 
-// 然后删除名为 "test" 的目录
+// 删除名为 "test" 的目录
 deleteTestDirs(currentDir);
