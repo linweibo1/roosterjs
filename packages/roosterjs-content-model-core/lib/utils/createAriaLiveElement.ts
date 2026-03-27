@@ -13,6 +13,10 @@ export function createAriaLiveElement(document: Document): HTMLDivElement {
     div.style.width = '1px';
     div.ariaLive = 'assertive';
 
+    // todo: xmail: 增加这两句避免该元素导致 body 出现滚动条
+    div.style.left = '0';
+    div.style.bottom = '0';
+
     document.body.appendChild(div);
 
     return div;

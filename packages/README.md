@@ -126,3 +126,8 @@
 
 -   修改字体大小转换映射表，确保转换前后在浏览器视觉上大小一致
     -   [fontSizeFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/segment/fontSizeFormatHandler.ts)
+
+### 16. 无障碍元素导致滚动条
+
+-   解决 ariaLive 元素插入 body 后因缺少定位属性导致 body 出现滚动条的问题
+    -   [createAriaLiveElement.ts](roosterjs-content-model-core/lib/utils/createAriaLiveElement.ts)
