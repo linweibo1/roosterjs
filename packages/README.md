@@ -9,20 +9,9 @@
 ## 使用说明
 
 1. 从 `packages` 目录下复制这些库过来，并删除其中的 `test` 文件夹
-2. 由于 `rooster-editor-adapter` 还需要用到旧的库，项目的 `package.json` 增加了：
-    ```
-    "roosterjs-editor-adapter": "^8.62.1"
-    ```
-3. `packages` 目录已计入 `.eslintignore`
-4. 需要在 webpack 中 resolve 增加这些配置项：
-    ```
-    'roosterjs-content-model-api': path.resolve(__dirname, '../src/mail/projects/web/components2/XmailEditor/Editor/packages/roosterjs-content-model-api'),
-    'roosterjs-content-model-core': path.resolve(__dirname, '../src/mail/projects/web/components2/XmailEditor/Editor/packages/roosterjs-content-model-core'),
-    'roosterjs-content-model-dom': path.resolve(__dirname, '../src/mail/projects/web/components2/XmailEditor/Editor/packages/roosterjs-content-model-dom'),
-    'roosterjs-content-model-plugins': path.resolve(__dirname, '../src/mail/projects/web/components2/XmailEditor/Editor/packages/roosterjs-content-model-plugins'),
-    'roosterjs-content-model-types': path.resolve(__dirname, '../src/mail/projects/web/components2/XmailEditor/Editor/packages/roosterjs-content-model-types'),
-    'roosterjs-editor-adapter': path.resolve(__dirname, '../src/mail/projects/web/components2/XmailEditor/Editor/packages/roosterjs-editor-adapter'),
-    ```
+2. `packages` 目录已计入 `.eslintignore`
+3. 包之间的相互引用统一改为相对路径形式（例如 `from '../../roosterjs-content-model-dom/lib/index'`），不再依赖 webpack alias
+4. v9 版本不再提供 setContent / insertContent / addUndoSnapshot 等命令式 API，过去通过 `roosterjs-editor-adapter` 兼容包补齐这些方法，现已改为在 `Editor/rooster.ts` 内基于 v9 原生 `Editor` 内联实现，已移除 adapter 依赖。
 
 ## 源码修改记录
 

@@ -5,6 +5,20 @@
 const fs = require('fs');
 const path = require('path');
 
+// 获取当前工作目录
+const currentDir = process.cwd();
+
+// 要保存的目录
+const saveDirs = [
+    'roosterjs-content-model-api',
+    'roosterjs-content-model-core',
+    'roosterjs-content-model-dom',
+    'roosterjs-content-model-plugins',
+    'roosterjs-content-model-types',
+];
+// 要删除的文件
+const deleteFiles = ['tsconfig.test.json', 'tsconfig.json'];
+
 function deleteTestDirs(dir) {
     // 读取目录中的所有文件和子目录
     fs.readdir(dir, { withFileTypes: true }, (err, entries) => {
@@ -120,21 +134,6 @@ function replacePackageImports(packagesDir) {
 
     processDir(packagesDir);
 }
-
-// 获取当前工作目录
-const currentDir = process.cwd();
-
-// 要删除的目录和文件
-const saveDirs = [
-    'roosterjs-content-model-api',
-    'roosterjs-content-model-core',
-    'roosterjs-content-model-dom',
-    'roosterjs-content-model-plugins',
-    'roosterjs-content-model-types',
-    'roosterjs-editor-adapter',
-];
-
-const deleteFiles = ['tsconfig.test.json', 'tsconfig.json'];
 
 // 先将本地包间引用转为相对路径（同步执行）
 replacePackageImports(currentDir);
