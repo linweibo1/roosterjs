@@ -71,15 +71,14 @@ export function createImageWrapper(
 }
 
 const createShadowSpan = (wrapper: HTMLElement, imageSpan: HTMLSpanElement) => {
-    const shadowRoot = imageSpan.attachShadow({
-        mode: 'open',
-    });
-
     // todo: xmail: 有高低两个图片并排时，选中图片之后要保持对齐方式避免跳动，也要避免上下图片之间留缝隙
     const image = imageSpan.getElementsByTagName('img')[0];
     imageSpan.style.display = 'inline-flex';
     imageSpan.style.verticalAlign = window.getComputedStyle(image).verticalAlign;
 
+    const shadowRoot = imageSpan.attachShadow({
+        mode: 'open',
+    });
     imageSpan.id = IMAGE_EDIT_SHADOW_ROOT;
     shadowRoot.appendChild(wrapper);
     return imageSpan;
