@@ -78,6 +78,9 @@ export const handleListItem: ContentModelBlockHandler<ContentModelListItem> = (
         // Need to apply listItemElement formats after applying metadata since the list numbers value relies on the result of metadata handling
         applyFormat(li, context.formatAppliers.listItemElement, listItem.format, context);
 
+        // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+        applyFormat(li, context.formatAppliers.dataset, listItem.dataset, context);
+
         stackFormat(context, listItem.formatHolder.format, () => {
             context.modelHandlers.blockGroupChildren(doc, li, listItem, context);
         });

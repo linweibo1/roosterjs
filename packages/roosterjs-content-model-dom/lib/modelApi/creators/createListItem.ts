@@ -28,5 +28,8 @@ export function createListItem(
             : [],
         formatHolder,
         format: {},
+
+        // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+        dataset: {},
     };
 }

@@ -1,6 +1,6 @@
 # RoosterJS 包使用说明
 
-## 基本信息
+## 基本信息（每次 Sync fork 时才修改）
 
 -   **最后更新时间**：2026-02-02
 -   **版本**：9.45.2
@@ -120,3 +120,18 @@
 
 -   解决 ariaLive 元素插入 body 后因缺少定位属性导致 body 出现滚动条的问题
     -   [createAriaLiveElement.ts](roosterjs-content-model-core/lib/utils/createAriaLiveElement.ts)
+
+### 17. 设置标题时清除段落级格式
+
+-   段落的 segmentFormat 会渲染到标题标签的行内样式且顺序在装饰格式之后，会覆盖标题标签的默认字号、字重和行高，导致设置标题后字号不变，设置标题时一并清除
+    -   [setHeadingLevel.ts](roosterjs-content-model-api/lib/publicApi/block/setHeadingLevel.ts)
+
+### 18. 列表项 data 属性支持
+
+-   为了实现 todolist 功能，列表项（li）支持 data-_ 属性；列表级（ul）的 data-_ 原生已支持
+    -   [ContentModelListItem.ts](roosterjs-content-model-types/lib/contentModel/blockGroup/ContentModelListItem.ts)
+    -   [createListItem.ts](roosterjs-content-model-dom/lib/modelApi/creators/createListItem.ts)
+    -   [listItemProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/listItemProcessor.ts)
+    -   [handleListItem.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleListItem.ts)
+    -   [datasetFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/common/datasetFormatHandler.ts)
+    -   [cloneModel.ts](roosterjs-content-model-dom/lib/modelApi/editing/cloneModel.ts)

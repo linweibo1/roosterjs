@@ -24,6 +24,10 @@ export const listItemProcessor: ElementProcessor<HTMLLIElement> = (group, elemen
                 );
 
                 const listItem = createListItem(listFormat.levels, context.segmentFormat);
+
+                // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+                parseFormat(element, context.formatParsers.dataset, listItem.dataset, context);
+
                 parseFormat(
                     element,
                     context.formatParsers.listItemElement,

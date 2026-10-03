@@ -18,12 +18,21 @@ import type {
     ReadonlyContentModelSelectionMarker,
 } from '../segment/ContentModelSelectionMarker';
 
+// todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+import type {
+    ContentModelWithDataset,
+    ReadonlyContentModelWithDataset,
+    ShallowMutableContentModelWithDataset,
+} from '../format/ContentModelWithDataset';
+
 /**
  * Content Model of List Item
  */
 export interface ContentModelListItem
     extends ContentModelBlockGroupBase<'ListItem', HTMLLIElement>,
-        ContentModelBlockBase<'BlockGroup', ContentModelListItemFormat, HTMLLIElement> {
+        ContentModelBlockBase<'BlockGroup', ContentModelListItemFormat, HTMLLIElement>,
+        // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+        ContentModelWithDataset<null> {
     /**
      * Type of this list, either ordered or unordered
      */
@@ -40,7 +49,9 @@ export interface ContentModelListItem
  */
 export interface ReadonlyContentModelListItem
     extends ReadonlyContentModelBlockGroupBase<'ListItem', HTMLLIElement>,
-        ReadonlyContentModelBlockBase<'BlockGroup', ContentModelListItemFormat, HTMLLIElement> {
+        ReadonlyContentModelBlockBase<'BlockGroup', ContentModelListItemFormat, HTMLLIElement>,
+        // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+        ReadonlyContentModelWithDataset<null> {
     /**
      * Type of this list, either ordered or unordered
      */
@@ -61,7 +72,9 @@ export interface ShallowMutableContentModelListItem
             'BlockGroup',
             ContentModelListItemFormat,
             HTMLLIElement
-        > {
+        >,
+        // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+        ShallowMutableContentModelWithDataset<null> {
     /**
      * Type of this list, either ordered or unordered
      */

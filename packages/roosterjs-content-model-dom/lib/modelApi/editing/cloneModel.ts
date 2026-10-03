@@ -307,7 +307,10 @@ function cloneListItem(
             cachedElement: handleCachedElement(cachedElement, 'cache', options),
         },
         cloneBlockBase(item),
-        cloneBlockGroupBase(item, options)
+        cloneBlockGroupBase(item, options),
+
+        // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset）
+        cloneModelWithDataset(item)
     );
 }
 

@@ -42,6 +42,13 @@ export function setHeadingLevel(editor: IEditor, headingLevel: 0 | 1 | 2 | 3 | 4
                 delete segment.format.fontSize;
                 delete segment.format.fontWeight;
             });
+
+            // todo: xmail: 段落的segmentFormat会渲染到标题标签的行内样式且顺序在装饰格式之后，会覆盖标签的默认字号、字重和行高，设置标题时一并清除
+            if (para.segmentFormat) {
+                delete para.segmentFormat.fontSize;
+                delete para.segmentFormat.fontWeight;
+                delete para.segmentFormat.lineHeight;
+            }
         } else if (tagName) {
             delete para.decorator;
         }
