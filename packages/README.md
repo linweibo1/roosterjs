@@ -135,3 +135,8 @@
     -   [handleListItem.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleListItem.ts)
     -   [datasetFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/common/datasetFormatHandler.ts)
     -   [cloneModel.ts](roosterjs-content-model-dom/lib/modelApi/editing/cloneModel.ts)
+
+### 19. id 选择器转义
+
+-   邮箱 app 插入的图片 id 是文件名（含"."、"("等字符），直接拼#id 选择器非法，转义非[-_a-zA-Z0-9]字符使选择器合法
+    -   [getSafeIdSelector.ts](roosterjs-content-model-dom/lib/domUtils/getSafeIdSelector.ts)
