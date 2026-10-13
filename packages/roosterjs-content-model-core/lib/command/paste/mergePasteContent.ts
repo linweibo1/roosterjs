@@ -88,7 +88,10 @@ export function mergePasteContent(
                 };
             }
 
-            return true;
+            // return true;
+
+            // todo: xmail: 粘贴被插件拦截（内容未合并）时不发 contentChanged，避免粘贴选项按钮提前出现
+            return !!insertPoint;
         },
         {
             changeSource: ChangeSource.Paste,

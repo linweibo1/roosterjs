@@ -51,7 +51,11 @@ export function paste(
 
     // 3. Create target fragment
     const sourceFragment = createPasteFragment(
-        editor.getDocument(),
+        // editor.getDocument()
+
+        // todo: xmail: 粘贴解析时剥离节点的事件属性（如 img 的 onerror），并让 fragment 按剪贴板 html 的惰性文档创建，避免解析阶段执行脚本（剪贴板 xss）、加载图片等资源
+        doc || editor.getDocument(),
+
         clipboardData,
         pasteType,
         (clipboardData.rawHtml == clipboardData.html
@@ -80,5 +84,30 @@ function createDOMFromHtml(
     html: string | null | undefined,
     domCreator: DOMCreator
 ): Document | null {
-    return html ? domCreator.htmlToDOM(html) : null;
+    // return html ? domCreator.htmlToDOM(html) : null;
+
+    // todo: xmail: 粘贴解析时剥离节点的事件属性（如 img 的 onerror），并让 fragment 按剪贴板 html 的惰性文档创建，避免解析阶段执行脚本（剪贴板 xss）、加载图片等资源
+    const doc = html ? domCreator.htmlToDOM(html) : null;
+    stripEventAttributes(doc);
+    return doc;
+}
+
+// todo: xmail: 粘贴解析时剥离节点的事件属性（如 img 的 onerror），并让 fragment 按剪贴板 html 的惰性文档创建，避免解析阶段执行脚本（剪贴板 xss）、加载图片等资源
+function stripEventAttributes(doc: Document | null): void {
+    if (!doc) {
+        return;
+    }
+
+    const elements = doc.querySelectorAll('*');
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        const attributes = element.attributes;
+        // 倒序遍历：删除属性会实时改变attributes集合
+        for (let j = attributes.length - 1; j >= 0; j--) {
+            const name = attributes[j].name;
+            if (name.toLowerCase().indexOf('on') == 0) {
+                element.removeAttribute(name);
+            }
+        }
+    }
 }

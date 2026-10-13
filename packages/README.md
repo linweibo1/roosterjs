@@ -148,3 +148,13 @@
     -   [defaultContentModelFormatMap.ts](roosterjs-content-model-dom/lib/config/defaultContentModelFormatMap.ts)
     -   [defaultHTMLStyleMap.ts](roosterjs-content-model-dom/lib/config/defaultHTMLStyleMap.ts)
     -   [knownElementProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/knownElementProcessor.ts)
+
+### 21. 粘贴解析不激活资源与脚本
+
+-   粘贴解析时剥离节点的事件属性（如 img 的 onerror），并让 fragment 按剪贴板 html 的惰性文档创建，避免解析阶段执行脚本（剪贴板 xss）、加载图片等资源
+    -   [paste.ts](roosterjs-content-model-core/lib/command/paste/paste.ts)
+
+### 22. 粘贴选项按钮提前出现
+
+-   粘贴被插件拦截（内容未合并）时不发 contentChanged，避免粘贴选项按钮提前出现
+    -   [mergePasteContent.ts](roosterjs-content-model-core/lib/command/paste/mergePasteContent.ts)
