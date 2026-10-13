@@ -138,5 +138,13 @@
 
 ### 19. id 选择器转义
 
--   邮箱 app 插入的图片 id 是文件名（含"."、"("等字符），直接拼#id 选择器非法，转义非[-_a-zA-Z0-9]字符使选择器合法
+-   邮箱 app 插入的图片 id 是文件名（含"."、"("等字符），直接拼 #id 选择器非法，转义非[-_a-zA-Z0-9]字符使选择器合法
     -   [getSafeIdSelector.ts](roosterjs-content-model-dom/lib/domUtils/getSafeIdSelector.ts)
+
+### 20. 引用块去默认样式
+
+-   引用块只保留标签不写默认样式，样式统一由编辑器样式文件控制，方便各端展示时应用自己的默认样式
+    -   [toggleBlockQuote.ts](roosterjs-content-model-api/lib/publicApi/block/toggleBlockQuote.ts)
+    -   [defaultContentModelFormatMap.ts](roosterjs-content-model-dom/lib/config/defaultContentModelFormatMap.ts)
+    -   [defaultHTMLStyleMap.ts](roosterjs-content-model-dom/lib/config/defaultHTMLStyleMap.ts)
+    -   [knownElementProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/knownElementProcessor.ts)

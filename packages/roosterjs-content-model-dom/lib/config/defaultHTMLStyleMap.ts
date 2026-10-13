@@ -16,10 +16,11 @@ export const defaultHTMLStyleMap: DefaultStyleMap = {
     },
     blockquote: {
         display: 'block',
-        marginTop: '1em',
-        marginBottom: '1em',
-        marginLeft: '40px',
-        marginRight: '40px',
+        // todo: xmail: 引用块只保留标签不写默认样式，避免解析时兜底写入默认外边距
+        // marginTop: '1em',
+        // marginBottom: '1em',
+        // marginLeft: '40px',
+        // marginRight: '40px',
     },
     br: blockElement,
     center: {

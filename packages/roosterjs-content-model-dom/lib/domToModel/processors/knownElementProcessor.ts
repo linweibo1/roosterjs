@@ -38,6 +38,9 @@ const FormatContainerTriggerAttributes = ['id'];
 const ByPassFormatContainerTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'A'];
 const SegmentDecoratorTags = ['A', 'CODE'];
 
+// todo: xmail: 引用块只保留标签不写默认样式，没有内联样式时样式探测会失效，需要强制按引用容器解析
+const ForceFormatContainerTags = ['BLOCKQUOTE'];
+
 /**
  * @internal
  */
@@ -109,6 +112,11 @@ function shouldForceUseFormatContainer(element: HTMLElement, context: DomToModel
 }
 
 function shouldUseFormatContainer(element: HTMLElement, context: DomToModelContext) {
+    // todo: xmail: 引用块只保留标签不写默认样式，需要强制按引用容器解析，否则会被解析成普通段落
+    if (ForceFormatContainerTags.indexOf(element.tagName) >= 0) {
+        return true;
+    }
+
     // For those tags that we know we should not use format container, just return false
     if (ByPassFormatContainerTags.indexOf(element.tagName) >= 0) {
         return false;
