@@ -15,7 +15,7 @@ export const datasetFormatHandler: FormatHandler<DatasetFormat> = {
     },
 
     apply: (format, element) => {
-        // todo: xmail: 为了实现todolist功能，删除dataset键后apply同步清除DOM上已不存在的data属性，避免复用元素上残留旧属性
+        // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset），删除dataset键后apply同步清除DOM上已不存在的data属性，避免复用元素上残留旧属性
         getObjectKeys(element.dataset).forEach(key => {
             if (!Object.prototype.hasOwnProperty.call(format, key)) {
                 delete element.dataset[key];

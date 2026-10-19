@@ -128,13 +128,14 @@
 
 ### 18. 列表项 data 属性支持
 
--   为了实现 todolist 功能，列表项（li）支持 data-_ 属性；列表级（ul）的 data-_ 原生已支持
+-   为了实现 todolist 功能，列表项支持 data-\*属性（dataset）
     -   [ContentModelListItem.ts](roosterjs-content-model-types/lib/contentModel/blockGroup/ContentModelListItem.ts)
     -   [createListItem.ts](roosterjs-content-model-dom/lib/modelApi/creators/createListItem.ts)
     -   [listItemProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/listItemProcessor.ts)
     -   [handleListItem.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleListItem.ts)
     -   [datasetFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/common/datasetFormatHandler.ts)
     -   [cloneModel.ts](roosterjs-content-model-dom/lib/modelApi/editing/cloneModel.ts)
+    -   [setListType](roosterjs-content-model-api/lib/modelApi/list/setListType.ts)
 
 ### 19. id 选择器转义
 

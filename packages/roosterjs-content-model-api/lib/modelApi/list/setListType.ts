@@ -55,6 +55,10 @@ export function setListType(
             if (!alreadyInExpectedType && level) {
                 level.listType = listType;
 
+                // todo: xmail: 为了实现todolist功能，列表项支持data-*属性（dataset），切换列表后同步清除DOM上已不存在的data属性，避免复用元素上残留旧属性
+                level.dataset = {};
+                mutableBlock.dataset = {};
+
                 updateListMetadata(level, metadata =>
                     Object.assign({}, metadata, {
                         applyListStyleFromLevel: true,
