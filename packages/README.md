@@ -135,7 +135,6 @@
     -   [handleListItem.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleListItem.ts)
     -   [datasetFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/common/datasetFormatHandler.ts)
     -   [cloneModel.ts](roosterjs-content-model-dom/lib/modelApi/editing/cloneModel.ts)
-    -   [setListType](roosterjs-content-model-api/lib/modelApi/list/setListType.ts)
 
 ### 19. id 选择器转义
 
