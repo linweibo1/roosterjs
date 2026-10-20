@@ -37,6 +37,8 @@ export const handleList: ContentModelBlockHandler<ContentModelListItem> = (
         if (
             stackLevel.listType != itemLevel.listType ||
             stackLevel.dataset?.editingInfo != itemLevel.dataset.editingInfo ||
+            // todo: xmail: 列表级data不同的项要拆成独立列表，否则清掉待办标记后仍会并回原列表
+            !isSameListDataset(stackLevel.dataset, itemLevel.dataset) ||
             (itemLevel.listType == 'OL' &&
                 typeof itemLevel.format.startNumberOverride === 'number') ||
             (itemLevel.listType == 'UL' &&
@@ -126,3 +128,13 @@ export const handleList: ContentModelBlockHandler<ContentModelListItem> = (
 
     return nodeStack[0].refNode;
 };
+
+// todo: xmail: 列表级data不同的项要拆成独立列表，否则清掉待办标记后仍会并回原列表
+//  这里要比较两个列表层级的业务属性是否一致（不含editingInfo）
+function isSameListDataset(a?: Record<string, string>, b?: Record<string, string>): boolean {
+    const keysOf = (dataset?: Record<string, string>) =>
+        Object.keys(dataset || {}).filter(key => key != 'editingInfo');
+    const keysA = keysOf(a);
+    const keysB = keysOf(b);
+    return keysA.length == keysB.length && keysA.every(key => a?.[key] == b?.[key]);
+}

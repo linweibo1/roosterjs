@@ -135,6 +135,8 @@
     -   [handleListItem.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleListItem.ts)
     -   [datasetFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/common/datasetFormatHandler.ts)
     -   [cloneModel.ts](roosterjs-content-model-dom/lib/modelApi/editing/cloneModel.ts)
+-   列表级 data 不同的项要拆成独立列表，否则清掉待办标记后仍会并回原列表，列表上的属性无法单独去掉
+    -   [handleList.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleList.ts)
 
 ### 19. id 选择器转义
 
