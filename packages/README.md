@@ -160,3 +160,8 @@
 
 -   粘贴被插件拦截（内容未合并）时不发 contentChanged，避免粘贴选项按钮提前出现
     -   [mergePasteContent.ts](roosterjs-content-model-core/lib/command/paste/mergePasteContent.ts)
+
+### 23. 音频按实体处理
+
+-   音频是原子媒体，自身没有文本位置：按普通片段处理时，段落末尾没有能放光标的地方，音频后面既不能输入也删不掉。按实体处理后可落在它前后，也能整块删除；渲染时自动带上 `contenteditable="false"`，不产生实体类名与分隔符，正文结构保持不变
+    -   [elementProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/elementProcessor.ts)
