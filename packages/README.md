@@ -165,3 +165,8 @@
 
 -   音频是原子媒体，自身没有文本位置：按普通片段处理时，段落末尾没有能放光标的地方，音频后面既不能输入也删不掉。按实体处理后可落在它前后，也能整块删除；渲染时自动带上 `contenteditable="false"`，不产生实体类名与分隔符，正文结构保持不变
     -   [elementProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/elementProcessor.ts)
+
+### 24. 焦点恢复选区后清除选区缓存
+
+-   恢复选区后只清除 range 型缓存，image/table 型残留会让后续选区设置失效幂等判断，并在图片编辑态重写 DOM 时触发滚动锚定错误补偿导致视口跳变
+    -   [SelectionPlugin.ts](roosterjs-content-model-core/lib/corePlugin/selection/SelectionPlugin.ts)

@@ -664,6 +664,8 @@ class SelectionPlugin implements PluginWithState<SelectionPluginState> {
     private onFocus = () => {
         if (!this.state.skipReselectOnFocus && this.state.selection) {
             this.setDOMSelection(this.state.selection, this.state.tableSelection);
+            // todo: xmail: 恢复选区后只清除 range 型缓存，image/table 型残留会让后续选区设置失效幂等判断，并在图片编辑态重写 DOM 时触发滚动锚定错误补偿导致视口跳变
+            this.state.selection = null;
         }
 
         if (this.state.selection?.type == 'range' && !this.isSafari) {
