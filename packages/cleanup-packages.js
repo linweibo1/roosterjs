@@ -1,145 +1,76 @@
 /**
- * @desc: 删除不需要的所有文件和目录
+ * @desc: 清理 vendored 包中不需要的内容
+ * 从 roosterjs 源仓库复制 packages 后，在本目录下执行：
+ * 删除未保留的包，删除各包的 test 目录、package.json 与 tsconfig，并把包间引用改为相对路径
  */
 
 const fs = require('fs');
 const path = require('path');
 
-// 获取当前工作目录
-const currentDir = process.cwd();
-
-// 要保存的目录
+// 要保存的包
 const saveDirs = [
+    'roosterjs-color-utils',
     'roosterjs-content-model-api',
     'roosterjs-content-model-core',
     'roosterjs-content-model-dom',
     'roosterjs-content-model-plugins',
     'roosterjs-content-model-types',
 ];
-// 要删除的文件
-const deleteFiles = ['tsconfig.test.json', 'tsconfig.json'];
 
-function deleteTestDirs(dir) {
-    // 读取目录中的所有文件和子目录
-    fs.readdir(dir, { withFileTypes: true }, (err, entries) => {
-        if (err) {
-            console.error(`无法读取目录 ${dir}: ${err}`);
-            return;
-        }
+// 每个包内要删除的文件：包不参与 npm 解析（引用已全部相对路径化），构建配置由本项目统一提供
+const deleteFiles = ['package.json', 'tsconfig.json', 'tsconfig.test.json'];
 
-        // 处理每个条目
-        entries.forEach(entry => {
-            const fullPath = path.join(dir, entry.name);
-
-            if (entry.isDirectory()) {
-                // 如果是目录，递归调用
-                deleteTestDirs(fullPath);
-
-                // 检查目录名是否为 "test"
-                if (entry.name === 'test') {
-                    // 删除名为 "test" 的目录
-                    fs.rmdir(fullPath, { recursive: true }, err => {
-                        if (err) {
-                            console.error(`无法删除目录 ${fullPath}: ${err}`);
-                        } else {
-                            console.log(`已删除目录: ${fullPath}`);
-                        }
-                    });
-                }
-            }
-        });
-    });
-}
-
-function deleteRootDirsAndFiles(rootDir) {
-    // 读取根目录中的所有文件和子目录
-    fs.readdir(rootDir, { withFileTypes: true }, (err, entries) => {
-        if (err) {
-            console.error(`无法读取目录 ${rootDir}: ${err}`);
-            return;
-        }
-
-        // 处理每个条目
-        entries.forEach(entry => {
-            const fullPath = path.join(rootDir, entry.name);
-
-            // 删除多余的目录
-            if (entry.isDirectory() && !saveDirs.includes(entry.name)) {
-                fs.rmdir(fullPath, { recursive: true }, err => {
-                    if (err) {
-                        console.error(`无法删除目录 ${fullPath}: ${err}`);
-                    } else {
-                        console.log(`已删除目录: ${fullPath}`);
-                    }
-                });
-            }
-
-            // 删除指定的文件
-            if (entry.isFile() && deleteFiles.includes(entry.name)) {
-                fs.unlink(fullPath, err => {
-                    if (err) {
-                        console.error(`无法删除文件 ${fullPath}: ${err}`);
-                    } else {
-                        console.log(`已删除文件: ${fullPath}`);
-                    }
-                });
-            }
-        });
-    });
-}
+const packagesDir = __dirname;
 
 /**
- * 将本地包间引用（roosterjs-content-model-*）从包名形式转为相对路径形式
- * 例如：from 'roosterjs-content-model-dom' => from '../../roosterjs-content-model-dom/lib/index'
- * 深度根据文件相对于 packages 根目录的位置动态计算
+ * 包间引用从包名形式转为相对路径形式
+ * 例如 from 'roosterjs-content-model-dom' => from '../../roosterjs-content-model-dom/lib/index'
+ * 已是相对路径的引用不匹配正则，重复执行无副作用
  */
-function replacePackageImports(packagesDir) {
-    // 匹配 from 'roosterjs-content-model-xxx' 形式的 import（不匹配带子路径的）
+function replacePackageImports(dir) {
     const importRegex = /from '(roosterjs-content-model-(?:api|core|dom|plugins|types))'/g;
 
-    function processDir(dir) {
-        const entries = fs.readdirSync(dir, { withFileTypes: true });
-        for (const entry of entries) {
-            const fullPath = path.join(dir, entry.name);
-            if (entry.isDirectory()) {
-                processDir(fullPath);
-            } else if (entry.isFile() && /\.tsx?$/.test(entry.name)) {
-                const content = fs.readFileSync(fullPath, 'utf8');
-                if (!importRegex.test(content)) {
-                    continue;
-                }
-                // 重置 lastIndex
-                importRegex.lastIndex = 0;
-
-                // 计算当前文件到 packages 根目录的相对路径
-                const relativeFromPackages = path.relative(packagesDir, fullPath);
-                // 文件所在目录相对于 packages 的路径
-                const fileDir = path.dirname(relativeFromPackages);
-                // fileDir 形如 "roosterjs-content-model-api/lib/modelApi/block"
-                // 需要回到 packages 根目录的 "../" 层数 = fileDir 中的目录层数
-                const depth = fileDir.split(path.sep).length;
-                const prefix = '../'.repeat(depth);
-
-                const newContent = content.replace(importRegex, (match, pkgName) => {
-                    return `from '${prefix}${pkgName}/lib/index'`;
-                });
-
-                if (newContent !== content) {
-                    fs.writeFileSync(fullPath, newContent, 'utf8');
-                    // console.log(`已替换包间引用: ${relativeFromPackages}`);
-                }
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+            replacePackageImports(fullPath);
+        } else if (entry.isFile() && /\.tsx?$/.test(entry.name)) {
+            const content = fs.readFileSync(fullPath, 'utf-8');
+            // 当前文件所在目录到 packages 根目录的 ../ 层数
+            const depth = path.relative(packagesDir, path.dirname(fullPath)).split(path.sep).length;
+            const newContent = content.replace(importRegex, (_, pkgName) => {
+                return `from '${'../'.repeat(depth)}${pkgName}/lib/index'`;
+            });
+            if (newContent !== content) {
+                fs.writeFileSync(fullPath, newContent, 'utf-8');
             }
         }
     }
-
-    processDir(packagesDir);
 }
 
-// 先将本地包间引用转为相对路径（同步执行）
-replacePackageImports(currentDir);
+function main() {
+    // 删除未保留的包与根目录下的 tsconfig
+    for (const entry of fs.readdirSync(packagesDir, { withFileTypes: true })) {
+        const fullPath = path.join(packagesDir, entry.name);
+        if (entry.isDirectory() && !saveDirs.includes(entry.name)) {
+            fs.rmSync(fullPath, { recursive: true, force: true });
+        }
+        if (entry.isFile() && deleteFiles.includes(entry.name)) {
+            fs.rmSync(fullPath, { force: true });
+        }
+    }
 
-// 删除根目录下的指定目录和文件
-deleteRootDirsAndFiles(currentDir);
+    // 清理各保留包：删除 test 目录、包内 node_modules（源仓库 monorepo 的安装产物）与包内文件
+    for (const name of saveDirs) {
+        const packageDir = path.join(packagesDir, name);
+        fs.rmSync(path.join(packageDir, 'test'), { recursive: true, force: true });
+        fs.rmSync(path.join(packageDir, 'node_modules'), { recursive: true, force: true });
+        for (const file of deleteFiles) {
+            fs.rmSync(path.join(packageDir, file), { force: true });
+        }
+    }
 
-// 删除名为 "test" 的目录
-deleteTestDirs(currentDir);
+    replacePackageImports(packagesDir);
+}
+
+main();

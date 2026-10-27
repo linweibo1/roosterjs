@@ -8,10 +8,10 @@
 
 ## 使用说明
 
-1. 从 `packages` 目录下复制这些库过来，并删除其中的 `test` 文件夹
+1. 从 `packages` 目录下复制这些库过来，执行 `cleanup-packages.js` 清理（删除未保留的包、各包的 test 目录 / package.json / node_modules，并把包间引用改为相对路径）
 2. `packages` 目录已计入 `.eslintignore`
-3. 包之间的相互引用统一改为相对路径形式（例如 `from '../../roosterjs-content-model-dom/lib/index'`），不再依赖 webpack alias
-4. v9 版本不再提供 setContent / insertContent / addUndoSnapshot 等命令式 API，过去通过 `roosterjs-editor-adapter` 兼容包补齐这些方法，现已改为在 `Editor/rooster.ts` 内基于 v9 原生 `Editor` 内联实现，已移除 adapter 依赖。
+3. 包之间的相互引用统一改为相对路径形式（例如 `from '../../roosterjs-content-model-dom/lib/index'`），不依赖 webpack alias；包内文件不参与 npm 解析，`roosterjs-color-utils` 依赖的 npm 包 `color` 已声明在项目根 `package.json`
+4. v9 版本不提供 setContent / insertContent / addUndoSnapshot 等命令式 API，这些方法在 `Editor/rooster.ts` 内基于 v9 原生 `Editor` 内联实现
 
 ## 源码修改记录
 
