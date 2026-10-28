@@ -75,6 +75,8 @@
 -   粘贴之后光标离滚动容器底部要保持一定距离，避免选择性粘贴按钮被挡住
     -   [focus.ts](roosterjs-content-model-core/lib/coreApi/focus/focus.ts)
     -   [scrollCaretIntoView.ts](roosterjs-content-model-core/lib/coreApi/formatContentModel/scrollCaretIntoView.ts)
+-   解决窗口失焦期间滚动后，回焦时滚动条跳回失焦时位置的问题：窗口失焦时 activeElement 仍在编辑器内，滚动时需同时判断文档焦点才会刷新滚动位置缓存
+    -   [SelectionPlugin.ts](roosterjs-content-model-core/lib/corePlugin/selection/SelectionPlugin.ts)
 
 ### 9. 低端浏览器兼容
 

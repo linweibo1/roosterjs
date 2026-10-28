@@ -155,7 +155,9 @@ class SelectionPlugin implements PluginWithState<SelectionPluginState> {
                 break;
 
             case 'scroll':
-                if (!this.editor.hasFocus()) {
+                // if (!this.editor.hasFocus()) {
+                // todo: xmail: 解决窗口失焦期间滚动后，回焦时滚动条跳回失焦时位置的问题：窗口失焦时 activeElement 仍在编辑器内，滚动时需同时判断文档焦点才会刷新滚动位置缓存
+                if (!this.editor.hasFocus() || !this.editor.getDocument().hasFocus()) {
                     this.scrollTopCache = event.scrollContainer.scrollTop;
                 }
                 break;
