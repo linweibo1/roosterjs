@@ -172,3 +172,8 @@
 
 -   恢复选区后只清除 range 型缓存，image/table 型残留会让后续选区设置失效幂等判断，并在图片编辑态重写 DOM 时触发滚动锚定错误补偿导致视口跳变
     -   [SelectionPlugin.ts](roosterjs-content-model-core/lib/corePlugin/selection/SelectionPlugin.ts)
+
+### 25. 联想触发不限位置
+
+-   在任意位置输入触发字符都触发联想
+    -   [PickerPlugin.ts](roosterjs-content-model-plugins/lib/picker/PickerPlugin.ts)

@@ -226,6 +226,8 @@ export class PickerPlugin implements EditorPlugin {
                     const charBeforeTrigger = segment.text[segment.text.length - 2];
 
                     if (
+                        // todo: xmail: 在任意位置输入触发字符都触发联想
+                        true ||
                         !charBeforeTrigger ||
                         !charBeforeTrigger.trim() ||
                         isPunctuation(charBeforeTrigger)
