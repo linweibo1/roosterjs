@@ -132,9 +132,7 @@ export const ShortcutRedo: ShortcutCommand = {
         which: Keys.Y,
     },
     onClick: editor => redo(editor),
-    // todo: xmail: 使 mac 下 command + y 也可以执行 redo
-    environment: 'all',
-    // environment: 'nonMac',
+    environment: 'nonMac',
 };
 
 /**

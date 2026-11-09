@@ -108,27 +108,22 @@
 -   在编辑器中粘贴时要排除文件夹
     -   [extractClipboardItems.ts](roosterjs-content-model-dom/lib/domUtils/event/extractClipboardItems.ts)
 
-### 14. Redo 快捷键兼容
-
--   mac 下 command + y 也可以执行 redo
-    -   [shortcuts.ts](roosterjs-content-model-plugins/lib/shortcut/shortcuts.ts)
-
-### 15. 字体大小映射兼容
+### 14. 字体大小映射兼容
 
 -   修改字体大小转换映射表，确保转换前后在浏览器视觉上大小一致
     -   [fontSizeFormatHandler.ts](roosterjs-content-model-dom/lib/formatHandlers/segment/fontSizeFormatHandler.ts)
 
-### 16. 无障碍元素导致滚动条
+### 15. 无障碍元素导致滚动条
 
 -   解决 ariaLive 元素插入 body 后因缺少定位属性导致 body 出现滚动条的问题
     -   [createAriaLiveElement.ts](roosterjs-content-model-core/lib/utils/createAriaLiveElement.ts)
 
-### 17. 设置标题时清除段落级格式
+### 16. 设置标题时清除段落级格式
 
 -   段落的 segmentFormat 会渲染到标题标签的行内样式且顺序在装饰格式之后，会覆盖标题标签的默认字号、字重和行高，导致设置标题后字号不变，设置标题时一并清除
     -   [setHeadingLevel.ts](roosterjs-content-model-api/lib/publicApi/block/setHeadingLevel.ts)
 
-### 18. 列表项 data 属性支持
+### 17. 列表项 data 属性支持
 
 -   为了实现 todolist 功能，列表项支持 data-\*属性（dataset）
     -   [ContentModelListItem.ts](roosterjs-content-model-types/lib/contentModel/blockGroup/ContentModelListItem.ts)
@@ -140,12 +135,12 @@
 -   列表级 data 不同的项要拆成独立列表，否则清掉待办标记后仍会并回原列表，列表上的属性无法单独去掉
     -   [handleList.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleList.ts)
 
-### 19. id 选择器转义
+### 18. id 选择器转义
 
 -   邮箱 app 插入的图片 id 是文件名（含"."、"("等字符），直接拼 #id 选择器非法，转义非[-_a-zA-Z0-9]字符使选择器合法
     -   [getSafeIdSelector.ts](roosterjs-content-model-dom/lib/domUtils/getSafeIdSelector.ts)
 
-### 20. 引用块去默认样式
+### 19. 引用块去默认样式
 
 -   引用块只保留标签不写默认样式，样式统一由编辑器样式文件控制，方便各端展示时应用自己的默认样式
     -   [toggleBlockQuote.ts](roosterjs-content-model-api/lib/publicApi/block/toggleBlockQuote.ts)
@@ -153,27 +148,27 @@
     -   [defaultHTMLStyleMap.ts](roosterjs-content-model-dom/lib/config/defaultHTMLStyleMap.ts)
     -   [knownElementProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/knownElementProcessor.ts)
 
-### 21. 粘贴解析不激活资源与脚本
+### 20. 粘贴解析不激活资源与脚本
 
 -   粘贴解析时剥离节点的事件属性（如 img 的 onerror），并让 fragment 按剪贴板 html 的惰性文档创建，避免解析阶段执行脚本（剪贴板 xss）、加载图片等资源
     -   [paste.ts](roosterjs-content-model-core/lib/command/paste/paste.ts)
 
-### 22. 粘贴选项按钮提前出现
+### 21. 粘贴选项按钮提前出现
 
 -   粘贴被插件拦截（内容未合并）时不发 contentChanged，避免粘贴选项按钮提前出现
     -   [mergePasteContent.ts](roosterjs-content-model-core/lib/command/paste/mergePasteContent.ts)
 
-### 23. 音频按实体处理
+### 22. 音频按实体处理
 
 -   音频是原子媒体，自身没有文本位置：按普通片段处理时，段落末尾没有能放光标的地方，音频后面既不能输入也删不掉。按实体处理后可落在它前后，也能整块删除；渲染时自动带上 `contenteditable="false"`，不产生实体类名与分隔符，正文结构保持不变
     -   [elementProcessor.ts](roosterjs-content-model-dom/lib/domToModel/processors/elementProcessor.ts)
 
-### 24. 焦点恢复选区后清除选区缓存
+### 23. 焦点恢复选区后清除选区缓存
 
 -   恢复选区后只清除 range 型缓存，image/table 型残留会让后续选区设置失效幂等判断，并在图片编辑态重写 DOM 时触发滚动锚定错误补偿导致视口跳变
     -   [SelectionPlugin.ts](roosterjs-content-model-core/lib/corePlugin/selection/SelectionPlugin.ts)
 
-### 25. 联想触发不限位置
+### 24. 联想触发不限位置
 
 -   在任意位置输入触发字符都触发联想
     -   [PickerPlugin.ts](roosterjs-content-model-plugins/lib/picker/PickerPlugin.ts)
