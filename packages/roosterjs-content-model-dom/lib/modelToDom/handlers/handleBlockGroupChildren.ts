@@ -44,7 +44,9 @@ export const handleBlockGroupChildren: ContentModelHandler<ContentModelBlockGrou
             }
         });
 
-        cleanUpNodeStack(listFormat.nodeStack, context);
+        // cleanUpNodeStack(listFormat.nodeStack, context);
+        // todo: xmail: 离开块组时若列表栈底容器就是该块组则整栈已失效，需清空防止泄漏给后续兄弟块，否则引用块后的列表项会被建进引用块内且旧节点不被清理，内容多出一倍
+        cleanUpNodeStack(listFormat.nodeStack, context, parent);
 
         // Remove all rest node if any since they don't appear in content model
         cleanUpRestNodes(refNode, context.rewriteFromModel);
@@ -53,13 +55,26 @@ export const handleBlockGroupChildren: ContentModelHandler<ContentModelBlockGrou
     }
 };
 
-function cleanUpNodeStack(nodeStack: ModelToDomListStackItem[], context: ModelToDomContext) {
+// function cleanUpNodeStack(nodeStack: ModelToDomListStackItem[], context: ModelToDomContext) {
+// todo: xmail: 离开块组时若列表栈底容器就是该块组则整栈已失效，需清空防止泄漏给后续兄弟块，否则引用块后的列表项会被建进引用块内且旧节点不被清理，内容多出一倍
+function cleanUpNodeStack(
+    nodeStack: ModelToDomListStackItem[],
+    context: ModelToDomContext,
+    leavingParent?: Node
+) {
     if (context.allowCacheListItem && nodeStack.length > 0) {
         // Clear list stack, only run to nodeStack[1] because nodeStack[0] is the parent node
         for (let i = nodeStack.length - 1; i > 0; i--) {
             const node = nodeStack.pop()?.refNode ?? null;
 
             cleanUpRestNodes(node, context.rewriteFromModel);
+        }
+    }
+
+    // todo: xmail: 离开块组时若列表栈底容器就是该块组则整栈已失效，需清空防止泄漏给后续兄弟块，否则引用块后的列表项会被建进引用块内且旧节点不被清理，内容多出一倍
+    if (leavingParent && nodeStack.length > 0 && nodeStack[0].node == leavingParent) {
+        while (nodeStack.length > 0) {
+            nodeStack.pop();
         }
     }
 }

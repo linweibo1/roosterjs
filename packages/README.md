@@ -172,3 +172,8 @@
 
 -   在任意位置输入触发字符都触发联想
     -   [PickerPlugin.ts](roosterjs-content-model-plugins/lib/picker/PickerPlugin.ts)
+
+### 25. 引用块后列表项内容重复
+
+-   离开块组时若列表栈底容器就是该块组则整栈已失效，需清空防止泄漏给后续兄弟块，否则引用块后的列表项会被建进引用块内且旧节点不被清理，内容多出一倍
+    -   [handleBlockGroupChildren.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleBlockGroupChildren.ts)
