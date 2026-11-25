@@ -177,3 +177,8 @@
 
 -   离开块组时若列表栈底容器就是该块组则整栈已失效，需清空防止泄漏给后续兄弟块，否则引用块后的列表项会被建进引用块内且旧节点不被清理，内容多出一倍
     -   [handleBlockGroupChildren.ts](roosterjs-content-model-dom/lib/modelToDom/handlers/handleBlockGroupChildren.ts)
+
+### 26. 编辑器不写底色
+
+-   编辑器不往正文容器写 background-color，底色由调用方容器提供，避免暗夜下编辑器换算的底色与调用方容器颜色不一致
+    -   [LifecyclePlugin.ts](roosterjs-content-model-core/lib/corePlugin/lifecycle/LifecyclePlugin.ts)

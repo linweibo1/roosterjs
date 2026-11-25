@@ -11,7 +11,8 @@ import type {
 
 const ContentEditableAttributeName = 'contenteditable';
 const DefaultTextColor = '#000000';
-const DefaultBackColor = '#ffffff';
+// todo: xmail: 编辑器底色由调用方容器提供，不往正文容器写background-color
+// const DefaultBackColor = '#ffffff';
 
 /**
  * Lifecycle plugin handles editor initialization and disposing
@@ -149,13 +150,14 @@ class LifecyclePlugin implements PluginWithState<LifecyclePluginState> {
                 isDarkMode,
                 darkColorHandler
             );
-            setColor(
-                contentDiv,
-                DefaultBackColor,
-                true /*isBackground*/,
-                isDarkMode,
-                darkColorHandler
-            );
+            // todo: xmail: 编辑器底色由调用方容器提供，不往正文容器写background-color
+            // setColor(
+            //     contentDiv,
+            //     DefaultBackColor,
+            //     true /*isBackground*/,
+            //     isDarkMode,
+            //     darkColorHandler
+            // );
         }
     }
 }
