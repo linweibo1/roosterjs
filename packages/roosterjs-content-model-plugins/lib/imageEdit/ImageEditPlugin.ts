@@ -507,6 +507,12 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
         ) {
             // Image dimensions are zero and loading is incomplete, wait for image to load.
             image.onload = () => {
+                // todo: xmail: 图片未加载完成时编辑器已销毁则不再继续编辑，避免操作已销毁的编辑器报错
+                if (editor.isDisposed()) {
+                    image.onload = null;
+                    image.onerror = null;
+                    return;
+                }
                 this.updateImageDimensionsIfZero(image);
                 this.startEditingInternal(editor, image, apiOperation);
                 image.onload = null;
