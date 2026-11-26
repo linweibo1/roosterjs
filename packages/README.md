@@ -167,6 +167,7 @@
 ### 23. 焦点恢复选区后清除选区缓存
 
 -   恢复选区后只清除 range 型缓存，image/table 型残留会让后续选区设置失效幂等判断，并在图片编辑态重写 DOM 时触发滚动锚定错误补偿导致视口跳变
+-   图片选区中的图片已脱离文档时不再转为范围选区，避免 selectNode 报错
     -   [SelectionPlugin.ts](roosterjs-content-model-core/lib/corePlugin/selection/SelectionPlugin.ts)
 
 ### 24. 联想触发不限位置

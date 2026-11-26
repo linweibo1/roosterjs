@@ -337,6 +337,8 @@ class SelectionPlugin implements PluginWithState<SelectionPluginState> {
                 if (
                     (isModifierKey(rawEvent) || rawEvent.shiftKey) &&
                     selection.image &&
+                    // todo: xmail: 图片选区中的图片已脱离文档时不再转为范围选区，避免 selectNode 报错
+                    selection.image.parentNode &&
                     !this.isSafari
                 ) {
                     const range = selection.image.ownerDocument.createRange();
