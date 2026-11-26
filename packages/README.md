@@ -32,6 +32,7 @@
 -   带有`data-uneditable="true"`标记的图片不可编辑（如表情图片、地图图片等）
 -   临时解决在图片右键时无法退出图片编辑的问题
 -   图片未加载完成时编辑器已销毁则不再继续编辑，避免操作已销毁的编辑器报错
+-   cleanInfo 会清空 selectedImage，先取局部引用再清理，避免撤销时拿空图片恢复编辑标记
     -   [applyChange.ts](roosterjs-content-model-plugins/lib/imageEdit/utils/applyChange.ts)
     -   [updateWrapper.ts](roosterjs-content-model-plugins/lib/imageEdit/utils/updateWrapper.ts)
     -   [ImageEditPlugin.ts](roosterjs-content-model-plugins/lib/imageEdit/ImageEditPlugin.ts)

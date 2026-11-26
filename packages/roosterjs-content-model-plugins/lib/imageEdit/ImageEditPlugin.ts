@@ -332,8 +332,13 @@ export class ImageEditPlugin implements ImageEditor, EditorPlugin {
 
     private setContentHandler() {
         if (this.selectedImage) {
+            // this.cleanInfo();
+            // setImageState(this.selectedImage, '');
+            // todo: xmail: cleanInfo 会清空 selectedImage，先取局部引用再清理，避免撤销时拿空图片恢复编辑标记
+            const { selectedImage } = this;
             this.cleanInfo();
-            setImageState(this.selectedImage, '');
+            setImageState(selectedImage, '');
+
             this.isEditing = false;
             this.isCropMode = false;
         }
